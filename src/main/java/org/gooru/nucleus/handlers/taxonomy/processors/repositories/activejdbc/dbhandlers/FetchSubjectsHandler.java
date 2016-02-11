@@ -1,11 +1,20 @@
 package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.dbhandlers;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
+import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityDefaultSubject;
+import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.formatter.JsonFormatterBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
+import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult.ExecutionStatus;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponseFactory;
+import org.javalite.activejdbc.LazyList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +23,7 @@ class FetchSubjectsHandler implements DBHandler {
   private static final Logger LOGGER = LoggerFactory.getLogger(FetchSubjectsHandler.class);
   public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
   private final ProcessorContext context;
+  private String classificationType = null;
 
   public FetchSubjectsHandler(ProcessorContext context) {
     this.context = context;
@@ -26,6 +36,13 @@ class FetchSubjectsHandler implements DBHandler {
       return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(RESOURCE_BUNDLE.getString("not.allowed")),
               ExecutionResult.ExecutionStatus.FAILED);
     }
+    JsonArray classification = context.request().getJsonArray(HelperConstants.CLASSIFICATION_TYPE);
+    if (context.request() == null || classification == null || classification.isEmpty()) {
+      LOGGER.warn("classification type is missing.");
+      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("missing.classification.type")),
+              ExecutionStatus.FAILED);
+    }
+    this.classificationType = classification.getString(0);
     return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
   }
 
@@ -36,7 +53,11 @@ class FetchSubjectsHandler implements DBHandler {
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(null), ExecutionResult.ExecutionStatus.SUCCESSFUL);
+    LazyList<AJEntityDefaultSubject> results =
+            AJEntityDefaultSubject.where(AJEntityDefaultSubject.SUBJECTS_GET, this.classificationType).orderBy(HelperConstants.SEQUENCE_ID);
+    return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.SUBJECTS, new JsonArray(
+            JsonFormatterBuilder.buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.SUBJECTS_RESPONSE_FIELDS)).toJson(results)))),
+            ExecutionResult.ExecutionStatus.SUCCESSFUL);
   }
 
   @Override
