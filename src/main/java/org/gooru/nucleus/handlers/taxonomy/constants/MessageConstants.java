@@ -28,12 +28,16 @@ public final class MessageConstants {
   public static final String MSG_OP_TAXONOMY_SUBJECTS_GET = "taxonomy.subjects.get";
   public static final String MSG_OP_TAXONOMY_COURSES_GET = "taxonomy.courses.get";
   public static final String MSG_OP_TAXONOMY_DOMAINS_GET = "taxonomy.domains.get";
-  public static final String MSG_OP_TAXONOMY_DOMAIN_STANDARDS_GET = "taxonomy.domain.standards.get";
+  public static final String MSG_OP_TAXONOMY_DOMAIN_CODES_GET = "taxonomy.domain.codes.get";
   public static final String MSG_OP_TAXONOMY_STANDARD_FRAMEWORKS_GET = "taxonomy.standard.framework.get";
+  public static final String MSG_OP_TAXONOMY_ROOT_CODES_GET = "taxonomy.root.codes.get";
+  public static final String MSG_OP_TAXONOMY_SUBTREE_CODES_GET = "taxonomy.subtree.codes.get";
 
   public static final String ID_TX_SUBJECT = "subjectId";
   public static final String ID_TX_COURSE = "courseId";
   public static final String ID_TX_DOMAIN = "domainId";
+  public static final String ID_TX_STANDARD_FRAMEWORK = "standardFrameworkId";
+  public static final String ID_TX_CODE = "codeId";
 
   private MessageConstants() {
     throw new AssertionError();

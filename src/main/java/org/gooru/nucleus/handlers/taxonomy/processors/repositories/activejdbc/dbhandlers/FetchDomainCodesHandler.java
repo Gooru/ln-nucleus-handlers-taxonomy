@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 
 import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
-import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTaxonomyDomain;
+import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTaxonomyCode;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.formatter.JsonFormatterBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult.ExecutionStatus;
@@ -18,14 +18,14 @@ import org.javalite.activejdbc.LazyList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class FetchDomainsHandler implements DBHandler {
+class FetchDomainCodesHandler implements DBHandler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(FetchDomainsHandler.class);
-  private final ProcessorContext context;
+  private static final Logger LOGGER = LoggerFactory.getLogger(FetchDomainCodesHandler.class);
   public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
+  private final ProcessorContext context;
   private String standardFrameworkId;
 
-  public FetchDomainsHandler(ProcessorContext context) {
+  public FetchDomainCodesHandler(ProcessorContext context) {
     this.context = context;
   }
 
@@ -33,11 +33,13 @@ class FetchDomainsHandler implements DBHandler {
   public ExecutionResult<MessageResponse> checkSanity() {
     if (context.userId() == null || context.userId().isEmpty()) {
       LOGGER.warn("Invalid user");
-      return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(), ExecutionResult.ExecutionStatus.FAILED);
+      return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(RESOURCE_BUNDLE.getString("not.allowed")),
+              ExecutionResult.ExecutionStatus.FAILED);
     }
-    // There should be an subject and course id present
-    if (context.subjectId() == null || context.subjectId().isEmpty() || context.courseId() == null || context.courseId().isEmpty()) {
-      LOGGER.warn("Missing subject/course id");
+    // There should be an subject/course/domain id present
+    if (context.subjectId() == null || context.subjectId().isEmpty() || context.courseId() == null || context.courseId().isEmpty()
+            || context.domainId() == null || context.domainId().isEmpty()) {
+      LOGGER.warn("Missing subject/course/domain id");
       return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(), ExecutionResult.ExecutionStatus.FAILED);
     }
 
@@ -48,6 +50,7 @@ class FetchDomainsHandler implements DBHandler {
               ExecutionStatus.FAILED);
     }
     this.standardFrameworkId = taxonomyPrefs.getString(context.subjectId());
+
     return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
   }
 
@@ -58,17 +61,17 @@ class FetchDomainsHandler implements DBHandler {
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    LazyList<AJEntityTaxonomyDomain> results =
-            AJEntityTaxonomyDomain.where(AJEntityTaxonomyDomain.DOMAINS_GET, context.courseId() + HelperConstants.PERCENTAGE, standardFrameworkId)
-                    .orderBy(HelperConstants.SEQUENCE_ID);
-    return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.DOMAINS, new JsonArray(
-            JsonFormatterBuilder.buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_DOMAIN_RESPONSE_FIELDS)).toJson(results)))),
+    LazyList<AJEntityTaxonomyCode> results =
+            AJEntityTaxonomyCode
+                    .where(AJEntityTaxonomyCode.TAXONOMY_CODES_GET, context.domainId() + HelperConstants.PERCENTAGE, standardFrameworkId).orderBy(
+                            HelperConstants.SEQUENCE_ID);
+    return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.CODES, new JsonArray(
+            JsonFormatterBuilder.buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_CODES_RESPONSE_FIELDS)).toJson(results)))),
             ExecutionResult.ExecutionStatus.SUCCESSFUL);
   }
 
   @Override
   public boolean handlerReadOnly() {
-    return true;
+    return false;
   }
-
 }

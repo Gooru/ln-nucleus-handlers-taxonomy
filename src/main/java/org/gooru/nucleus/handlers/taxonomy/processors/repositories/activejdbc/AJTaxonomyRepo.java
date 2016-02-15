@@ -40,4 +40,14 @@ class AJTaxonomyRepo implements TaxonomyRepo {
     return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchStandardsFrameworkHandler(context));
   }
 
+  @Override
+  public MessageResponse fetchTaxonomyRootCodes() {
+    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchNonRepresentationTaxonomyRootnodesHandler(context));
+  }
+
+  @Override
+  public MessageResponse fetchTaxonomySubtreeCodes() {
+    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchNonRepresentationTaxonomySubnodesHandler(context));
+  }
+
 }

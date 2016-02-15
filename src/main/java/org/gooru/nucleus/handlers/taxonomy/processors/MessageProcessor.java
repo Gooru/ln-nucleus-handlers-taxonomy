@@ -50,11 +50,17 @@ class MessageProcessor implements Processor {
       case MessageConstants.MSG_OP_TAXONOMY_DOMAINS_GET:
         result = processDomains();
         break;
-      case MessageConstants.MSG_OP_TAXONOMY_DOMAIN_STANDARDS_GET:
+      case MessageConstants.MSG_OP_TAXONOMY_DOMAIN_CODES_GET:
         result = processDomainStandards();
         break;
       case MessageConstants.MSG_OP_TAXONOMY_STANDARD_FRAMEWORKS_GET:
         result = processStandardFrameworks();
+        break;
+      case MessageConstants.MSG_OP_TAXONOMY_ROOT_CODES_GET:
+        result = processTaxonomyRootCodes();
+        break;
+      case MessageConstants.MSG_OP_TAXONOMY_SUBTREE_CODES_GET:
+        result = processTaxonomySubtreeCodes();
         break;
       default:
         LOGGER.error("Invalid operation type passed in, not able to handle");
@@ -74,31 +80,32 @@ class MessageProcessor implements Processor {
 
   private MessageResponse processCourses() {
     ProcessorContext context = createContext();
-    if (!validateId(context.subjectId())) {
-      return MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.subject.id"));
-    }
     return RepoBuilder.buildTaxonomyRepo(context).fetchCourses();
   }
 
   private MessageResponse processDomains() {
     ProcessorContext context = createContext();
-    if (!validateId(context.courseId())) {
-      return MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.course.id"));
-    }
     return RepoBuilder.buildTaxonomyRepo(context).fetchDomains();
   }
 
   private MessageResponse processDomainStandards() {
     ProcessorContext context = createContext();
-    if (!validateId(context.domainId())) {
-      return MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.domain.id"));
-    }
     return RepoBuilder.buildTaxonomyRepo(context).fetchDomainStandards();
   }
 
   private MessageResponse processStandardFrameworks() {
     ProcessorContext context = createContext();
     return RepoBuilder.buildTaxonomyRepo(context).fetchStandardFrameworks();
+  }
+
+  private MessageResponse processTaxonomyRootCodes() {
+    ProcessorContext context = createContext();
+    return RepoBuilder.buildTaxonomyRepo(context).fetchTaxonomyRootCodes();
+  }
+
+  private MessageResponse processTaxonomySubtreeCodes() {
+    ProcessorContext context = createContext();
+    return RepoBuilder.buildTaxonomyRepo(context).fetchTaxonomySubtreeCodes();
   }
 
   private ProcessorContext createContext() {
@@ -141,10 +148,6 @@ class MessageProcessor implements Processor {
 
   private boolean validateUser(String userId) {
     return !(userId == null || userId.isEmpty()) && (userId.equalsIgnoreCase(MessageConstants.MSG_USER_ANONYMOUS) || validateUuid(userId));
-  }
-
-  private boolean validateId(String id) {
-    return !(id == null || id.isEmpty()) && validateUuid(id);
   }
 
   private boolean validateUuid(String uuidString) {

@@ -74,29 +74,30 @@ class SimpleJsonFormatter implements JsonFormatter {
     } else {
       names = this.attributes;
     }
-
+    int count = 0;
     for (int i = 0; i < names.length; i++) {
-      if (i > 0) {
-        sb.append(',');
-      }
-      if (pretty) {
-        sb.append("\n  ").append(indent);
-      }
       String name = names[i];
-      sb.append('"').append(name).append("\":");
       Object v = model.get(name);
-      if (v == null) {
-        sb.append("null");
-      } else if (v instanceof Number || v instanceof Boolean) {
-        sb.append(v);
-      } else if (v instanceof Date) {
-        sb.append('"').append(Convert.toIsoString((Date) v)).append('"');
-      } else if (v instanceof PGobject && ((PGobject) v).getType().equalsIgnoreCase("jsonb")) {
-        sb.append(Convert.toString(v));
-      } else {
-        sb.append('"');
-        Escape.json(sb, Convert.toString(v));
-        sb.append('"');
+      if (v != null) {
+        if (count > 0) {
+          sb.append(',');
+        }
+        if (pretty) {
+          sb.append("\n  ").append(indent);
+        }
+        sb.append('"').append(name).append("\":");
+        if (v instanceof Number || v instanceof Boolean) {
+          sb.append(v);
+        } else if (v instanceof Date) {
+          sb.append('"').append(Convert.toIsoString((Date) v)).append('"');
+        } else if (v instanceof PGobject && ((PGobject) v).getType().equalsIgnoreCase("jsonb")) {
+          sb.append(Convert.toString(v));
+        } else {
+          sb.append('"');
+          Escape.json(sb, Convert.toString(v));
+          sb.append('"');
+        }
+        count = 1;
       }
     }
     if (pretty) {

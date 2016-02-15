@@ -56,7 +56,7 @@ class FetchSubjectsHandler implements DBHandler {
     LazyList<AJEntityDefaultSubject> results =
             AJEntityDefaultSubject.where(AJEntityDefaultSubject.SUBJECTS_GET, this.classificationType).orderBy(HelperConstants.SEQUENCE_ID);
     return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.SUBJECTS, new JsonArray(
-            JsonFormatterBuilder.buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.SUBJECTS_RESPONSE_FIELDS)).toJson(results)))),
+            JsonFormatterBuilder.buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_RESPONSE_FIELDS)).toJson(results)))),
             ExecutionResult.ExecutionStatus.SUCCESSFUL);
   }
 

@@ -22,11 +22,19 @@ public final class DBHandlerBuilder {
   }
 
   public static DBHandler buildFetchDomainStandardsHandler(ProcessorContext context) {
-    return new FetchDomainStandardsHandler(context);
+    return new FetchDomainCodesHandler(context);
   }
   
   public static DBHandler buildFetchStandardsFrameworkHandler(ProcessorContext context) {
     return new FetchStandardsFrameworkHandler(context);
+  }
+  
+  public static DBHandler buildFetchNonRepresentationTaxonomyRootnodesHandler(ProcessorContext context) {
+    return new FetchTaxonomyRootCodesHandler(context);
+  }
+  
+  public static DBHandler buildFetchNonRepresentationTaxonomySubnodesHandler(ProcessorContext context) {
+    return new FetchTaxonomySubtreeCodesHandler(context);
   }
 
 }
