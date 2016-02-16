@@ -9,6 +9,7 @@ import org.gooru.nucleus.handlers.taxonomy.bootstrap.shutdown.Finalizer;
 import org.gooru.nucleus.handlers.taxonomy.bootstrap.shutdown.Finalizers;
 import org.gooru.nucleus.handlers.taxonomy.bootstrap.startup.Initializer;
 import org.gooru.nucleus.handlers.taxonomy.bootstrap.startup.Initializers;
+import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
 import org.gooru.nucleus.handlers.taxonomy.constants.MessagebusEndpoints;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
@@ -46,8 +47,15 @@ public class TaxonomyVerticle extends AbstractVerticle {
         MessageResponse result = (MessageResponse) res.result();
         message.reply(result.reply(), result.deliveryOptions());
 
+        LOGGER.debug("Event Data : " + result.event());
         JsonObject eventData = result.event();
         if (eventData != null) {
+          String sessionToken = ((JsonObject) message.body()).getString(MessageConstants.MSG_HEADER_TOKEN);
+          if (sessionToken != null && !sessionToken.isEmpty()) {
+            eventData.put(MessageConstants.MSG_HEADER_TOKEN, sessionToken);
+          } else {
+            LOGGER.warn("Invalid session token received");
+          }
           eb.publish(MessagebusEndpoints.MBEP_EVENT, eventData);
         }
 
