@@ -150,7 +150,7 @@ class MessageProcessor implements Processor {
     return !(userId == null || userId.isEmpty()) && (userId.equalsIgnoreCase(MessageConstants.MSG_USER_ANONYMOUS) || validateUuid(userId));
   }
 
-  private boolean validateUuid(String uuidString) {
+  private  boolean validateUuid(String uuidString) {
     try {
       UUID.fromString(uuidString);
       return true;

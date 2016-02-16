@@ -1,9 +1,9 @@
 package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.dbhandlers;
 
-import java.util.Arrays;
-
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+
+import java.util.Arrays;
 
 import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;

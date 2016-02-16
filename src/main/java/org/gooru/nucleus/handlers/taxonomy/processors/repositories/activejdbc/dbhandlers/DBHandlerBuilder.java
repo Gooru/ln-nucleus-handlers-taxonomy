@@ -29,11 +29,11 @@ public final class DBHandlerBuilder {
     return new FetchStandardsFrameworkHandler(context);
   }
   
-  public static DBHandler buildFetchNonRepresentationTaxonomyRootnodesHandler(ProcessorContext context) {
+  public static DBHandler buildFetchNonRepresentationTaxonomyRootCodesHandler(ProcessorContext context) {
     return new FetchTaxonomyRootCodesHandler(context);
   }
   
-  public static DBHandler buildFetchNonRepresentationTaxonomySubnodesHandler(ProcessorContext context) {
+  public static DBHandler buildFetchNonRepresentationTaxonomySubCodesHandler(ProcessorContext context) {
     return new FetchTaxonomySubtreeCodesHandler(context);
   }
 

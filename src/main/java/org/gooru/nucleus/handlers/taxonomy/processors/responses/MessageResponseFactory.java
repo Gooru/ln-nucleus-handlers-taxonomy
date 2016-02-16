@@ -1,6 +1,5 @@
 package org.gooru.nucleus.handlers.taxonomy.processors.responses;
 
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;

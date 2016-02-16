@@ -42,12 +42,12 @@ class AJTaxonomyRepo implements TaxonomyRepo {
 
   @Override
   public MessageResponse fetchTaxonomyRootCodes() {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchNonRepresentationTaxonomyRootnodesHandler(context));
+    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchNonRepresentationTaxonomyRootCodesHandler(context));
   }
 
   @Override
   public MessageResponse fetchTaxonomySubtreeCodes() {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchNonRepresentationTaxonomySubnodesHandler(context));
+    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchNonRepresentationTaxonomySubCodesHandler(context));
   }
 
 }
