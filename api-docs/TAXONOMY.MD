@@ -93,7 +93,7 @@ curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NTc5OT
 
 **Note**
 
-   Use this API to get the all child codes based on the code-id.
+   Use this API to drill down and get all levels of child codes.
 
 **Authorization Header**
 
