@@ -6,8 +6,7 @@ Features
 -  Fetch taxonomy courses  based on  user preferred  standard framework.
 -  Fetch taxonomy domains  based on  user preferred  standard framework.
 -  Fetch taxonomy domain standards based on  user preferred  standard framework.
--  Fetch simple/dummy taxonomy  root level codes.
--  Fetch simple/dummy taxonomy  sub-tree level codes.
+
 
 
 ###Fetch taxonomy standard frameworks
@@ -255,3 +254,92 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 ```posh
 curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/subjects/K12.LA/courses/K12.LA~K12.LA.ELA3/domains
 ```
+
+###Fetch taxonomy domain standards based on  user preferred  standard framework.
+
+**Rest API details**
+
+| Name | Summary |
+|------------------------|--------|
+| HTTP Method | GET |
+| End Point | /api/nucleus/{version}/taxonomy/subjects/{default-subject-id}/courses/{default-course-id}/domains/{default-domain-id}/codes |
+| Auth | Required |
+| Request Body Type | None |
+| Request Body  | None |
+| Response Code | 200 Successful |
+
+
+**Authorization Header**
+
+```
+Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2
+```
+
+**Response body**
+
+```json
+{
+    "codes": [{
+        "default_code_id": "K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS~ELA.RF.3.VIII.4a",
+        "code": "CCSS.ELA-Literacy.RF.3.4a",
+        "title": "Read grade-level text with purpose and understanding.",
+        "type": "standard_level_2",
+        "is_selectable": true
+    }, {
+        "default_code_id": "K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS~ELA.RF.3.VII.3a",
+        "code": "CCSS.ELA-Literacy.RF.3.3a",
+        "title": "Identify and know the meaning of the most common prefixes and derivational suffixes.",
+        "type": "standard_level_2",
+        "is_selectable": true
+    }, {
+        "default_code_id": "K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS~ELA.RF.3.VII.3",
+        "code": "CCSS.ELA-Literacy.RF.3.3",
+        "title": "Know and apply grade-level phonics and word analysis skills in decoding words.",
+        "type": "standard_level_1",
+        "is_selectable": true
+    }, {
+        "default_code_id": "K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS~ELA.RF.3.VIII.4b",
+        "code": "CCSS.ELA-Literacy.RF.3.4b",
+        "title": "Read grade-level prose and poetry orally with accuracy, appropriate rate, and expression on successive readings.",
+        "type": "standard_level_2",
+        "is_selectable": true
+    }, {
+        "default_code_id": "K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS~ELA.RF.3.VII.3b",
+        "code": "CCSS.ELA-Literacy.RF.3.3b",
+        "title": "Decode words with common Latin suffixes.",
+        "type": "standard_level_2",
+        "is_selectable": true
+    }, {
+        "default_code_id": "K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS~ELA.RF.3.VIII.4",
+        "code": "CCSS.ELA-Literacy.RF.3.4",
+        "title": "Read with sufficient accuracy and fluency to support comprehension.",
+        "type": "standard_level_1",
+        "is_selectable": true
+    }, {
+        "default_code_id": "K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS~ELA.RF.3.VIII.4c",
+        "code": "CCSS.ELA-Literacy.RF.3.4c",
+        "title": "Use context to confirm or self-correct word recognition and understanding, rereading as necessary.",
+        "type": "standard_level_2",
+        "is_selectable": true
+    }, {
+        "default_code_id": "K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS~ELA.RF.3.VII.3c",
+        "code": "CCSS.ELA-Literacy.RF.3.3c",
+        "title": "Decode multisyllable words.",
+        "type": "standard_level_2",
+        "is_selectable": true
+    }, {
+        "default_code_id": "K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS~ELA.RF.3.VII.3d",
+        "code": "CCSS.ELA-Literacy.RF.3.3d",
+        "title": "Read grade-appropriate irregularly spelled words.",
+        "type": "standard_level_2",
+        "is_selectable": true
+    }]
+}
+```
+
+**CURL snippet**
+
+```posh
+curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/subjects/K12.LA/courses/K12.LA~K12.LA.ELA3/domains/K12.LA~K12.LA.ELA3~K12.LA.ELA3.FS/codes
+```
+
