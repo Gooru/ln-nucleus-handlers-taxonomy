@@ -11,6 +11,10 @@ import org.javalite.activejdbc.ModelDelegate;
 import org.javalite.common.Convert;
 import org.javalite.common.Escape;
 import org.postgresql.util.PGobject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.vertx.core.impl.StringEscapeUtils;
 
 /**
  * Simple Json formatter is not aware of any parent child relationship and just
@@ -19,8 +23,11 @@ import org.postgresql.util.PGobject;
  * "jsonb" field type in postgres
  */
 class SimpleJsonFormatter implements JsonFormatter {
+  private static final String JSONB_TYPE = "jsonb";
+  private static final int CAPACITY = 2048;
   private final String[] attributes;
   private final boolean pretty;
+  private static final Logger LOGGER = LoggerFactory.getLogger(SimpleJsonFormatter.class);
 
   public SimpleJsonFormatter(boolean pretty, List<String> attributes) {
     this.pretty = pretty;
@@ -29,7 +36,7 @@ class SimpleJsonFormatter implements JsonFormatter {
 
   @Override
   public <T extends Model> String toJson(T model) {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(CAPACITY);
     String indent = "";
     modelToJson(model, sb, indent);
     return sb.toString();
@@ -37,7 +44,7 @@ class SimpleJsonFormatter implements JsonFormatter {
 
   @Override
   public <T extends Model> String toJson(LazyList<T> modelList) {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(CAPACITY);
     sb.append('[');
     if (pretty) {
       sb.append('\n');
@@ -92,9 +99,19 @@ class SimpleJsonFormatter implements JsonFormatter {
           sb.append('"').append(Convert.toIsoString((Date) v)).append('"');
         } else if (v instanceof PGobject && ((PGobject) v).getType().equalsIgnoreCase("jsonb")) {
           sb.append(Convert.toString(v));
+        } else if (v instanceof String){
+          sb.append('"');
+          try {
+            sb.append(StringEscapeUtils.escapeJava(String.valueOf(v)));
+          } catch (Exception e) {
+            LOGGER
+                .warn("Failed to parse value of field '{}', will use default string without conversion ", name);
+            sb.append(Convert.toString(v));
+          }
+          sb.append('"');
         } else {
           sb.append('"');
-          Escape.json(sb, Convert.toString(v));
+          sb.append(Convert.toString(v));
           sb.append('"');
         }
         count = 1;
@@ -106,7 +123,7 @@ class SimpleJsonFormatter implements JsonFormatter {
     sb.append('}');
   }
 
-  private String[] lowerCased(Collection<String> collection) {
+  private static String[] lowerCased(Collection<String> collection) {
     String[] array = new String[collection.size()];
     int i = 0;
     for (String elem : collection) {
