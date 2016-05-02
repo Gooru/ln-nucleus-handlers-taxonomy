@@ -9,7 +9,6 @@ import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.ModelDelegate;
 import org.javalite.common.Convert;
-import org.javalite.common.Escape;
 import org.postgresql.util.PGobject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
