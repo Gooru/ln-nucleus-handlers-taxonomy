@@ -5,6 +5,5 @@ import org.javalite.activejdbc.annotations.Table;
 
 @Table("standard_framework")
 public class AJEntityStandardFramework extends Model {
-  
-  
+
 }

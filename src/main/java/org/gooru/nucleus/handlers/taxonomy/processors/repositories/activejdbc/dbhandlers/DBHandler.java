@@ -3,13 +3,12 @@ package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.d
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 
-
 public interface DBHandler {
-  ExecutionResult<MessageResponse> checkSanity();
+    ExecutionResult<MessageResponse> checkSanity();
 
-  ExecutionResult<MessageResponse> validateRequest();
+    ExecutionResult<MessageResponse> validateRequest();
 
-  ExecutionResult<MessageResponse> executeRequest();
+    ExecutionResult<MessageResponse> executeRequest();
 
-  boolean handlerReadOnly();
+    boolean handlerReadOnly();
 }
