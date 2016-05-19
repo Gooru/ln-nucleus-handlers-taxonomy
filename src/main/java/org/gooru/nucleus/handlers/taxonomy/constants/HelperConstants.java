@@ -14,7 +14,8 @@ public final class HelperConstants {
   public final static String[] TX_DOMAIN_RESPONSE_FIELDS = {"id", "default_taxonomy_domain_id", "code", "title", "description"};
   public final static String[] TX_CODES_RESPONSE_FIELDS = {"code", "title", "description", "code_type", "is_selectable"};
 
-  private HelperConstants() {
-    throw new AssertionError();
-  }
+
+    private HelperConstants() {
+        throw new AssertionError();
+    }
 }

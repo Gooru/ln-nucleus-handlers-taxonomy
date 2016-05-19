@@ -5,12 +5,12 @@ import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.AJ
 
 public final class RepoBuilder {
 
-  private RepoBuilder() {
-    throw new AssertionError();
-  }
+    private RepoBuilder() {
+        throw new AssertionError();
+    }
 
-  public static TaxonomyRepo buildTaxonomyRepo(ProcessorContext context) {
-    return AJRepoBuilder.buildTaxonomyRepo(context);
-  }
+    public static TaxonomyRepo buildTaxonomyRepo(ProcessorContext context) {
+        return AJRepoBuilder.buildTaxonomyRepo(context);
+    }
 
 }

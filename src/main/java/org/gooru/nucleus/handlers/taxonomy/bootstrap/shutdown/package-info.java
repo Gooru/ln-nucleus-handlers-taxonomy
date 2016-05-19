@@ -1,6 +1,5 @@
 package org.gooru.nucleus.handlers.taxonomy.bootstrap.shutdown;
 
-
 /**
  * This package will contain the machinery which needs to be finalized at application shutdown. The
  * verticle which is responsible for bootstraping the application, should use this package to finalize
