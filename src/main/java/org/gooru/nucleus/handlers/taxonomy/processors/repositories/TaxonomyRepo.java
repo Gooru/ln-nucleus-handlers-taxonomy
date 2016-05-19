@@ -3,17 +3,14 @@ package org.gooru.nucleus.handlers.taxonomy.processors.repositories;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 
 public interface TaxonomyRepo {
-  MessageResponse fetchSubjects();
+    MessageResponse fetchSubjects();
 
-  MessageResponse fetchCourses();
+    MessageResponse fetchCourses();
 
-  MessageResponse fetchDomains();
+    MessageResponse fetchDomains();
 
-  MessageResponse fetchDomainStandards();
+    MessageResponse fetchDomainStandards();
 
-  MessageResponse fetchStandardFrameworks();
+    MessageResponse fetchGUFSubjectStandardFrameworks();
 
-  MessageResponse fetchTaxonomyRootCodes();
-
-  MessageResponse fetchTaxonomySubtreeCodes();
 }

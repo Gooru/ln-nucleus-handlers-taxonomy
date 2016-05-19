@@ -11,7 +11,6 @@ import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTaxonomyCode;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.formatter.JsonFormatterBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
-import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult.ExecutionStatus;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponseFactory;
 import org.javalite.activejdbc.LazyList;
@@ -23,7 +22,6 @@ class FetchDomainCodesHandler implements DBHandler {
   private static final Logger LOGGER = LoggerFactory.getLogger(FetchDomainCodesHandler.class);
   public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
   private final ProcessorContext context;
-  private String standardFrameworkId;
 
   public FetchDomainCodesHandler(ProcessorContext context) {
     this.context = context;
@@ -38,18 +36,11 @@ class FetchDomainCodesHandler implements DBHandler {
     }
     // There should be an subject/course/domain id present
     if (context.subjectId() == null || context.subjectId().isEmpty() || context.courseId() == null || context.courseId().isEmpty()
-            || context.domainId() == null || context.domainId().isEmpty()) {
-      LOGGER.warn("Missing subject/course/domain id");
+            || context.domainId() == null || context.domainId().isEmpty() || context.standardFrameworkId() == null ||  context.standardFrameworkId().isEmpty()) {
+      LOGGER.warn("Missing standard framework id/subject/course/domain id");
       return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(), ExecutionResult.ExecutionStatus.FAILED);
     }
 
-    JsonObject taxonomyPrefs = context.prefs().getJsonObject(HelperConstants.STANDARD_PREFERECE);
-    if (taxonomyPrefs == null || !taxonomyPrefs.containsKey(context.subjectId())) {
-      LOGGER.warn("subject  standard framework is missing.");
-      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("missing.subject.framework.code")),
-              ExecutionStatus.FAILED);
-    }
-    this.standardFrameworkId = taxonomyPrefs.getString(context.subjectId());
 
     return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
   }
@@ -63,7 +54,7 @@ class FetchDomainCodesHandler implements DBHandler {
   public ExecutionResult<MessageResponse> executeRequest() {
     LazyList<AJEntityTaxonomyCode> results =
             AJEntityTaxonomyCode
-                    .where(AJEntityTaxonomyCode.TAXONOMY_CODES_GET, context.domainId() + HelperConstants.PERCENTAGE, standardFrameworkId).orderBy(
+                    .where(AJEntityTaxonomyCode.TAXONOMY_CODES_GET, context.domainId(), context.standardFrameworkId()).orderBy(
                             HelperConstants.SEQUENCE_ID);
     return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.CODES, new JsonArray(
             JsonFormatterBuilder.buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_CODES_RESPONSE_FIELDS)).toJson(results)))),

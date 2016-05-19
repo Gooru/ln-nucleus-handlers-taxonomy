@@ -30,8 +30,6 @@ public final class MessageConstants {
   public static final String MSG_OP_TAXONOMY_DOMAINS_GET = "taxonomy.domains.get";
   public static final String MSG_OP_TAXONOMY_DOMAIN_CODES_GET = "taxonomy.domain.codes.get";
   public static final String MSG_OP_TAXONOMY_STANDARD_FRAMEWORKS_GET = "taxonomy.standard.framework.get";
-  public static final String MSG_OP_TAXONOMY_ROOT_CODES_GET = "taxonomy.root.codes.get";
-  public static final String MSG_OP_TAXONOMY_SUBTREE_CODES_GET = "taxonomy.subtree.codes.get";
 
   public static final String ID_TX_SUBJECT = "subjectId";
   public static final String ID_TX_COURSE = "courseId";

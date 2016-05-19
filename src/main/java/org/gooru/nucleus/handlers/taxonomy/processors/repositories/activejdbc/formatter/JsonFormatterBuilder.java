@@ -17,4 +17,5 @@ public final class JsonFormatterBuilder {
 
     return new SimpleJsonFormatter(pretty, null);
   }
+ 
 }

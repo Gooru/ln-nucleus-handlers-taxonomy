@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 
 import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
-import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityDefaultSubject;
+import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntitySubject;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.formatter.JsonFormatterBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult.ExecutionStatus;
@@ -43,6 +43,13 @@ class FetchSubjectsHandler implements DBHandler {
               ExecutionStatus.FAILED);
     }
     this.classificationType = classification.getString(0);
+    
+    // There should be an standard_framework  present
+    if (context.standardFrameworkId() == null || context.standardFrameworkId().isEmpty()) {
+      LOGGER.warn("Missing standard framework id");
+      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(), ExecutionResult.ExecutionStatus.FAILED);
+    }
+    
     return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
   }
 
@@ -53,8 +60,8 @@ class FetchSubjectsHandler implements DBHandler {
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    LazyList<AJEntityDefaultSubject> results =
-            AJEntityDefaultSubject.where(AJEntityDefaultSubject.SUBJECTS_GET, this.classificationType).orderBy(HelperConstants.SEQUENCE_ID);
+    LazyList<AJEntitySubject> results =
+            AJEntitySubject.where(AJEntitySubject.SUBJECTS_GET, this.classificationType, context.standardFrameworkId()).orderBy(HelperConstants.SEQUENCE_ID);
     return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.SUBJECTS, new JsonArray(
             JsonFormatterBuilder.buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_RESPONSE_FIELDS)).toJson(results)))),
             ExecutionResult.ExecutionStatus.SUCCESSFUL);

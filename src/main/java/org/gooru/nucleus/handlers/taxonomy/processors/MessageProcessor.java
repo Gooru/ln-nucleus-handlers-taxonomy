@@ -56,12 +56,6 @@ class MessageProcessor implements Processor {
       case MessageConstants.MSG_OP_TAXONOMY_STANDARD_FRAMEWORKS_GET:
         result = processStandardFrameworks();
         break;
-      case MessageConstants.MSG_OP_TAXONOMY_ROOT_CODES_GET:
-        result = processTaxonomyRootCodes();
-        break;
-      case MessageConstants.MSG_OP_TAXONOMY_SUBTREE_CODES_GET:
-        result = processTaxonomySubtreeCodes();
-        break;
       default:
         LOGGER.error("Invalid operation type passed in, not able to handle");
         return MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE.getString("invalid.operation"));
@@ -95,17 +89,7 @@ class MessageProcessor implements Processor {
 
   private MessageResponse processStandardFrameworks() {
     ProcessorContext context = createContext();
-    return RepoBuilder.buildTaxonomyRepo(context).fetchStandardFrameworks();
-  }
-
-  private MessageResponse processTaxonomyRootCodes() {
-    ProcessorContext context = createContext();
-    return RepoBuilder.buildTaxonomyRepo(context).fetchTaxonomyRootCodes();
-  }
-
-  private MessageResponse processTaxonomySubtreeCodes() {
-    ProcessorContext context = createContext();
-    return RepoBuilder.buildTaxonomyRepo(context).fetchTaxonomySubtreeCodes();
+    return RepoBuilder.buildTaxonomyRepo(context).fetchGUFSubjectStandardFrameworks();
   }
 
   private ProcessorContext createContext() {

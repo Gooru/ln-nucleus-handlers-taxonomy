@@ -26,15 +26,7 @@ public final class DBHandlerBuilder {
   }
   
   public static DBHandler buildFetchStandardsFrameworkHandler(ProcessorContext context) {
-    return new FetchStandardsFrameworkHandler(context);
-  }
-  
-  public static DBHandler buildFetchNonRepresentationTaxonomyRootCodesHandler(ProcessorContext context) {
-    return new FetchTaxonomyRootCodesHandler(context);
-  }
-  
-  public static DBHandler buildFetchNonRepresentationTaxonomySubCodesHandler(ProcessorContext context) {
-    return new FetchTaxonomySubtreeCodesHandler(context);
+    return new FetchGUFSubjectStandardsFrameworkHandler(context);
   }
 
 }
