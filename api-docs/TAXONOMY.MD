@@ -91,7 +91,7 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 **CURL snippet**
 
 ```posh
-curl -i  -H "Content-Type: application/json" -H "Authorization: Token 00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://127.0.0.1:8080/api/nucleus/v1/taxonomy/subjects?classification_type=k_12
+curl -i  -H "Content-Type: application/json" -H "Authorization: Token 00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/subjects?classification_type=k_12
 ```
 
 ###Fetch taxonomy courses.
@@ -137,7 +137,7 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 **CURL snippet**
 
 ```posh
-curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://127.0.0.1:8080/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses
+curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses
 ```
 
 ###Fetch taxonomy domains.
@@ -184,7 +184,7 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 **CURL snippet**
 
 ```posh
-curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://127.0.0.1:8080/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses/TEXS~Math-Math-1/domains
+curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses/TEXS~Math-Math-1/domains
 ```
 
 ###Fetch taxonomy codes.
@@ -225,5 +225,5 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 **CURL snippet**
 
 ```posh
-curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://127.0.0.1:8080/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses/TEXS~Math-Math-1/domains/TEXS~Math-Math-1~NA-F2/codes
+curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses/TEXS~Math-Math-1/domains/TEXS~Math-Math-1~NA-F2/codes
 ```
