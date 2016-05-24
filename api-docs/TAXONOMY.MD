@@ -165,13 +165,13 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 {
     "domains": [
         {
-            "id": "TEXS~Math-Math-1~NA-F2",
+            "id": "TEXS~Math~Math-1~NA-F2",
             "code": "NA-F2",
             "title": "Numeric fraction 2",
             "description": ""
         },
         {
-            "id": "TEXS~Math-Math-1~NA-F",
+            "id": "TEXS~Math~Math-1~NA-F",
             "default_taxonomy_domain_id": "",
             "code": "NA-F ",
             "title": "Numeric fraction",
