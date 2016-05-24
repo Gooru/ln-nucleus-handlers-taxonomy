@@ -26,7 +26,7 @@ public final class DBHandlerBuilder {
   }
   
   public static DBHandler buildFetchStandardsFrameworkHandler(ProcessorContext context) {
-    return new FetchGUFSubjectStandardsFrameworkHandler(context);
+    return new FetchGUFSubjectHandler(context);
   }
 
 }
