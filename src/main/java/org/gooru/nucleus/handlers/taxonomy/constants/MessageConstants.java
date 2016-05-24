@@ -29,7 +29,6 @@ public final class MessageConstants {
   public static final String MSG_OP_TAXONOMY_COURSES_GET = "taxonomy.courses.get";
   public static final String MSG_OP_TAXONOMY_DOMAINS_GET = "taxonomy.domains.get";
   public static final String MSG_OP_TAXONOMY_DOMAIN_CODES_GET = "taxonomy.domain.codes.get";
-  public static final String MSG_OP_TAXONOMY_GDF_SUBJECT_GET = "taxonomy.gdf.subject.get";
 
   public static final String ID_TX_SUBJECT = "subjectId";
   public static final String ID_TX_COURSE = "courseId";

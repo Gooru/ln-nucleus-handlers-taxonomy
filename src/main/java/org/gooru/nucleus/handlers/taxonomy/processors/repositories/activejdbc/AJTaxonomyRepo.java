@@ -35,9 +35,4 @@ class AJTaxonomyRepo implements TaxonomyRepo {
     return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchDomainsHandler(context));
   }
 
-  @Override
-  public MessageResponse fetchGUFSubjectStandardFrameworks() {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchStandardsFrameworkHandler(context));
-  }
-
 }

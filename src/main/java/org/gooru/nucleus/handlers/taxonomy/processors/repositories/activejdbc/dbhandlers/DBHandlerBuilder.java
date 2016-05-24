@@ -24,9 +24,5 @@ public final class DBHandlerBuilder {
   public static DBHandler buildFetchDomainStandardsHandler(ProcessorContext context) {
     return new FetchDomainCodesHandler(context);
   }
-  
-  public static DBHandler buildFetchStandardsFrameworkHandler(ProcessorContext context) {
-    return new FetchGDFSubjectHandler(context);
-  }
 
 }

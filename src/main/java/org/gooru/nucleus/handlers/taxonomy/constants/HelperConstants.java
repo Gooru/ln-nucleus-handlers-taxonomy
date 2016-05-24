@@ -10,6 +10,7 @@ public final class HelperConstants {
   public final static String COURSES = "courses";
   public final static String DOMAINS = "domains";
   public final static String CODES = "codes";
+  public static final String FRAMEWORK_ID = "framework_id";
   public final static String[] TX_COURSE_RESPONSE_FIELDS = {"id", "default_taxonomy_course_id", "code", "title", "description"};
   public final static String[] TX_DOMAIN_RESPONSE_FIELDS = {"id", "default_taxonomy_domain_id", "code", "title", "description"};
   public final static String[] TX_CODES_RESPONSE_FIELDS = {"code", "title", "description", "code_type", "is_selectable"};
