@@ -1,17 +1,19 @@
 Features
 --------------
 
--  Fetch simple/dummy taxonomy  root level codes.
--  Fetch simple/dummy taxonomy  sub-tree levels codes.
+-  Fetch taxonomy subjects.
+-  Fetch taxonomy courses.
+-  Fetch taxonomy domains.
+-  Fetch taxonomy codes.
 
-###Fetch simple/dummy taxonomy  root level codes.
+###Fetch taxonomy subjects.
 
 **Rest API details**
 
 | Name | Summary |
 |------------------------|--------|
 | HTTP Method | GET |
-| End Point | /api/nucleus/{version}/taxonomy/standard-frameworks/{standard-framework-id}/codes |
+| End Point | /api/nucleus/{version}/taxonomy/subjects |
 | Auth | Required |
 | Request Body Type | None |
 | Request Body  | None |
@@ -28,47 +30,55 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 
 ```json
 {
-    "codes": [{
-        "id": "TEKS~TEKS.ELA",
-        "code": "TEKS.ELA",
-        "title": "English Language Arts and Reading",
-        "is_selectable": false
-    }, {
-        "id": "TEKS~TEKS.M",
-        "code": "TEKS.M",
-        "title": "Math",
-        "is_selectable": false
-    }, {
-        "id": "TEKS~TEKS.S",
-        "code": "TEKS.S",
-        "title": "Science",
-        "is_selectable": false
-    }, {
-        "id": "TEKS~TEKS.SS",
-        "code": "TEKS.SS",
-        "title": "Social Studies",
-        "is_selectable": false
-    }, {
-        "id": "TEKS~TEKS.HE",
-        "code": "TEKS.HE",
-        "title": "Health Education",
-        "is_selectable": false
-    }, {
-        "id": "TEKS~TEKS.PE",
-        "code": "TEKS.PE",
-        "title": "Physical Education",
-        "is_selectable": false
-    }, {
-        "id": "TEKS~TEKS.FA",
-        "code": "TEKS.FA",
-        "title": "Fine Arts",
-        "is_selectable": false
-    }, {
-        "id": "TEKS~TEKS.SPESL",
-        "code": "TEKS.SPESL",
-        "title": "Spanish Language Arts and Reading and English as a Second Language",
-        "is_selectable": false
-    }]
+    "subjects": [
+        {
+            "id": "GUF~Math",
+            "title": "mathematics ",
+            "description": "global mathematics ",
+            "code": "GUF mathematics",
+            "standard_framework_id": "GUF",
+            "frameworks": [
+                {
+                    "standard_framework_id": "TEXS",
+                    "taxonomy_subject_id": "TEXS~Math",
+                    "title": "TEXS"
+                },
+                {
+                    "standard_framework_id": "CSS",
+                    "taxonomy_subject_id": "CSS~Math",
+                    "title": "CSS"
+                }
+            ]
+        },
+        {
+            "id": "GUF~Science",
+            "title": "Science",
+            "description": "Science",
+            "code": "",
+            "standard_framework_id": "GUF",
+            "frameworks": [
+                {
+                    "standard_framework_id": "TEXS",
+                    "taxonomy_subject_id": "TEXS~Science",
+                    "title": "TEXS"
+                }
+            ]
+        },
+        {
+            "id": "GUF~EA",
+            "title": "English language arts ",
+            "description": "",
+            "code": "EA",
+            "standard_framework_id": "GUF",
+            "courses": [
+                {
+                    "id": "GUF~EA~Eng1",
+                    "code": "English one",
+                    "title": "English one, two, and three"
+                }
+            ]
+        }
+    ]
 }
 ```
 
