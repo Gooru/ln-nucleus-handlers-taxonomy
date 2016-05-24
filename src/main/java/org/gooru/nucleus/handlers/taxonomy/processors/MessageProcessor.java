@@ -53,7 +53,7 @@ class MessageProcessor implements Processor {
       case MessageConstants.MSG_OP_TAXONOMY_DOMAIN_CODES_GET:
         result = processDomainStandards();
         break;
-      case MessageConstants.MSG_OP_TAXONOMY_STANDARD_FRAMEWORKS_GET:
+      case MessageConstants.MSG_OP_TAXONOMY_GDF_SUBJECT_GET:
         result = processStandardFrameworks();
         break;
       default:

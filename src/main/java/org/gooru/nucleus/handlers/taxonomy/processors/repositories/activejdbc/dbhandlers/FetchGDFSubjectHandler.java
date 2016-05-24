@@ -13,26 +13,25 @@ import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityFramework;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntitySubject;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTaxonomyCourse;
-import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.formatter.JsonFormatter;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.formatter.JsonFormatterBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
+import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult.ExecutionStatus;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponseFactory;
-import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult.ExecutionStatus;
 import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class FetchGUFSubjectHandler implements DBHandler {
+class FetchGDFSubjectHandler implements DBHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FetchGUFSubjectHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FetchGDFSubjectHandler.class);
     public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
     private final ProcessorContext context;
     private static final String SUBJECTS = "subjects";
     private String classificationType = null;
 
-    public FetchGUFSubjectHandler(ProcessorContext context) {
+    public FetchGDFSubjectHandler(ProcessorContext context) {
         this.context = context;
     }
 
