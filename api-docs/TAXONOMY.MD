@@ -186,3 +186,44 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 ```posh
 curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://127.0.0.1:8080/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses/TEXS~Math-Math-1/domains
 ```
+
+###Fetch taxonomy codes.
+
+**Rest API details**
+
+| Name | Summary |
+|------------------------|--------|
+| HTTP Method | GET |
+| End Point | /api/nucleus/{version}/taxonomy/{framework-id}/courses/{taxonomy-course-id}/domains/{taxonomy-domain-id}/codes |
+| Auth | Required |
+| Request Body Type | None |
+| Request Body  | None |
+| Response Code | 200 Successful |
+
+**Authorization Header**
+
+```
+Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2
+```
+
+**Response body**
+
+```json
+{
+    "codes": [
+        {
+            "code": "NA.F2.PHS",
+            "title": "physics",
+            "description": "",
+            "code_type": "standard_level_0",
+            "is_selectable": false
+        }
+    ]
+}
+```
+
+**CURL snippet**
+
+```posh
+curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://127.0.0.1:8080/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses/TEXS~Math-Math-1/domains/TEXS~Math-Math-1~NA-F2/codes
+```
