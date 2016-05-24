@@ -101,7 +101,7 @@ curl -i  -H "Content-Type: application/json" -H "Authorization: Token 00M2EzNjhi
 | Name | Summary |
 |------------------------|--------|
 | HTTP Method | GET |
-| End Point | /api/nucleus/{version}/taxonomy/{framework-id}/courses |
+| End Point | /api/nucleus/{version}/taxonomy/frameworks/{framework-id}/courses |
 | Auth | Required |
 | Request Body Type | None |
 | Request Body  | None |
@@ -147,7 +147,7 @@ curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1OD
 | Name | Summary |
 |------------------------|--------|
 | HTTP Method | GET |
-| End Point | /api/nucleus/{version}/taxonomy/{framework-id}/courses/{taxonomy-course-id}/domains |
+| End Point | /api/nucleus/{version}/taxonomy/frameworks/{framework-id}/courses/{taxonomy-course-id}/domains |
 | Auth | Required |
 | Request Body Type | None |
 | Request Body  | None |
@@ -194,7 +194,7 @@ curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1OD
 | Name | Summary |
 |------------------------|--------|
 | HTTP Method | GET |
-| End Point | /api/nucleus/{version}/taxonomy/{framework-id}/courses/{taxonomy-course-id}/domains/{taxonomy-domain-id}/codes |
+| End Point | /api/nucleus/{version}/taxonomy/frameworks/{framework-id}/courses/{taxonomy-course-id}/domains/{taxonomy-domain-id}/codes |
 | Auth | Required |
 | Request Body Type | None |
 | Request Body  | None |
