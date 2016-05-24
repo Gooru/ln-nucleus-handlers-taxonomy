@@ -23,7 +23,7 @@ Features
 
 | Name | comment |
 |------------------------|--------|
-| classification_type | mandatory field, accpected types are k_12, higher_education, and professional_learning |
+| classification_type | mandatory field, accepted types are k_12, higher_education, and professional_learning |
 | framework_id        | optional field |
 
 **Authorization Header**
