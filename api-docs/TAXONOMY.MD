@@ -462,7 +462,7 @@ curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1OD
 | Name | Summary |
 |------------------------|--------|
 | HTTP Method | GET |
-| End Point | /api/nucleus/{version}/taxonomy/frameworks/codes/{taxonomy-code-id} |
+| End Point | /api/nucleus/{version}/taxonomy/codes/{taxonomy-code-id} |
 | Auth | Required |
 | Request Body Type | None |
 | Request Body  | None |
