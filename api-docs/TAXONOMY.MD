@@ -452,7 +452,7 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 **CURL snippet**
 
 ```posh
-curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses/TEXS~Math-Math-1/domains/TEXS~Math-Math-1~NA-F2/codes
+curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ2NDE3OTAyNjE3MzoyN2I1MjFkNC05Y2VlLTQ4YzUtYTUwMi0wMmVhNTgzODQzNDY6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus-qa.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEKS/subjects/TEKS.K12.PE/courses/TEKS.K12.PE-K/domains/TEKS.K12.PE-K-MOV/codes
 ```
 
 ###Fetch taxonomy code
