@@ -6,33 +6,37 @@ import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.db
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.transactions.TransactionExecutor;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 
-
 class AJTaxonomyRepo implements TaxonomyRepo {
-  private final ProcessorContext context;
+    private final ProcessorContext context;
 
-  public AJTaxonomyRepo(ProcessorContext context) {
-    this.context = context;
-  }
+    public AJTaxonomyRepo(ProcessorContext context) {
+        this.context = context;
+    }
 
-  @Override
-  public MessageResponse fetchSubjects() {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchSubjectsHandler(context));
-  }
+    @Override
+    public MessageResponse fetchSubjects() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchSubjectsHandler(context));
+    }
 
-  @Override
-  public MessageResponse fetchCourses() {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCoursesHandler(context));
-  }
+    @Override
+    public MessageResponse fetchCourses() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCoursesHandler(context));
+    }
 
-  @Override
-  public MessageResponse fetchDomainStandards() {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchDomainStandardsHandler(context));
+    @Override
+    public MessageResponse fetchDomainStandards() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchDomainStandardsHandler(context));
 
-  }
+    }
 
-  @Override
-  public MessageResponse fetchDomains() {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchDomainsHandler(context));
-  }
+    @Override
+    public MessageResponse fetchDomains() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchDomainsHandler(context));
+    }
+
+    @Override
+    public MessageResponse fetchCodes() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCodesHandler(context));
+    }
 
 }

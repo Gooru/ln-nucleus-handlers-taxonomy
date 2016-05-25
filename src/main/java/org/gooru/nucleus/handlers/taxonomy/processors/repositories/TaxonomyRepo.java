@@ -11,4 +11,6 @@ public interface TaxonomyRepo {
 
     MessageResponse fetchDomainStandards();
 
+    MessageResponse fetchCodes();
+
 }
