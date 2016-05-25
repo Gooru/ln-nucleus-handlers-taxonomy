@@ -13,7 +13,7 @@ public final class HelperConstants {
   public static final String FRAMEWORK_ID = "framework_id";
   public final static String[] TX_COURSE_RESPONSE_FIELDS = {"id", "default_taxonomy_course_id", "code", "title", "description"};
   public final static String[] TX_DOMAIN_RESPONSE_FIELDS = {"id", "default_taxonomy_domain_id", "code", "title", "description"};
-  public final static String[] TX_CODES_RESPONSE_FIELDS = {"id", "code", "title", "description", "code_type", "is_selectable"};
+  public final static String[] TX_CODES_RESPONSE_FIELDS = {"id", "parent_taxonomy_code_id", "code", "title", "description", "code_type", "is_selectable"};
 
 
     private HelperConstants() {
