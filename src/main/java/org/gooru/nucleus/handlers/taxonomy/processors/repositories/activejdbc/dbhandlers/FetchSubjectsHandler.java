@@ -91,10 +91,10 @@ class FetchSubjectsHandler implements DBHandler {
         } else {
             LazyList<AJEntitySubject> results =
                 AJEntitySubject.where(AJEntitySubject.SUBJECTS_GET, this.classificationType,
-                    context.standardFrameworkId()).orderBy(HelperConstants.SEQUENCE_ID);
+                    standardFrameworkId).orderBy(HelperConstants.SEQUENCE_ID);
             JsonArray jsonResults =
                 new JsonArray(JsonFormatterBuilder.buildSimpleJsonFormatter(false,
-                    Arrays.asList(HelperConstants.TX_COURSE_RESPONSE_FIELDS)).toJson(results));
+                    Arrays.asList(HelperConstants.TX_RESPONSE_FIELDS)).toJson(results));
             return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(
                 HelperConstants.SUBJECTS, jsonResults)), ExecutionResult.ExecutionStatus.SUCCESSFUL);
         }
