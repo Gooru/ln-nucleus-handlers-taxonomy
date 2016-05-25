@@ -68,6 +68,7 @@ Features
 -  Fetch taxonomy courses.
 -  Fetch taxonomy domains.
 -  Fetch taxonomy codes.
+-  Fetch taxonomy code.
 
 ###Fetch taxonomy subjects.
 
@@ -87,7 +88,7 @@ Features
 | Name | comment |
 |------------------------|--------|
 | classification_type | mandatory field, accepted types are k_12, higher_education, and professional_learning |
-| framework_id        | optional field |
+
 
 **Authorization Header**
 
@@ -99,62 +100,109 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 
 ```json
 {
-    "subjects": [
-        {
-            "id": "GUF~Math",
-            "title": "mathematics ",
-            "description": "global mathematics ",
-            "code": "GUF mathematics",
-            "standard_framework_id": "GUF",
-            "frameworks": [
-                {
-                    "standard_framework_id": "TEXS",
-                    "taxonomy_subject_id": "TEXS~Math",
-                    "title": "TEXS"
-                },
-                {
-                    "standard_framework_id": "CSS",
-                    "taxonomy_subject_id": "CSS~Math",
-                    "title": "CSS"
-                }
-            ]
-        },
-        {
-            "id": "GUF~Science",
-            "title": "Science",
-            "description": "Science",
-            "code": "",
-            "standard_framework_id": "GUF",
-            "frameworks": [
-                {
-                    "standard_framework_id": "TEXS",
-                    "taxonomy_subject_id": "TEXS~Science",
-                    "title": "TEXS"
-                }
-            ]
-        },
-        {
-            "id": "GUF~EA",
-            "title": "English language arts ",
-            "description": "",
-            "code": "EA",
-            "standard_framework_id": "GUF",
-            "courses": [
-                {
-                    "id": "GUF~EA~Eng1",
-                    "code": "English one",
-                    "title": "English one, two, and three"
-                }
-            ]
-        }
-    ]
+    "subjects": [{
+        "id": "GDF.K12.VPA",
+        "title": "Visual & Performing Arts",
+        "description": null,
+        "code": "GDF.K12.VPA",
+        "standard_framework_id": "GDF",
+        "frameworks": [{
+            "standard_framework_id": "TEKS",
+            "taxonomy_subject_id": "TEKS.K12.FA",
+            "taxonomy_subject_title": "Fine Arts",
+            "title": "Texas Essential Knowledge and Skills"
+        }]
+    }, {
+        "id": "GDF.K12.HE",
+        "title": "Health",
+        "description": null,
+        "code": "GDF.K12.HE",
+        "standard_framework_id": "GDF",
+        "frameworks": [{
+            "standard_framework_id": "TEKS",
+            "taxonomy_subject_id": "TEKS.K12.HE",
+            "taxonomy_subject_title": "Health Education",
+            "title": "Texas Essential Knowledge and Skills"
+        }]
+    }, {
+        "id": "GDF.K12.PE",
+        "title": "Physical Education",
+        "description": null,
+        "code": "GDF.K12.PE",
+        "standard_framework_id": "GDF",
+        "frameworks": [{
+            "standard_framework_id": "TEKS",
+            "taxonomy_subject_id": "TEKS.K12.PE",
+            "taxonomy_subject_title": "Physical Education",
+            "title": "Texas Essential Knowledge and Skills"
+        }]
+    }, {
+        "id": "GDF.K12.WL",
+        "title": "World Languages",
+        "description": null,
+        "code": "GDF.K12.WL",
+        "standard_framework_id": "GDF"
+    }, {
+        "id": "GDF.K12.CTE",
+        "title": "Career Technical Education",
+        "description": null,
+        "code": "GDF.K12.CTE",
+        "standard_framework_id": "GDF"
+    }, {
+        "id": "GDF.K12.SLA",
+        "title": "Spanish Language Arts",
+        "description": null,
+        "code": "GDF.K12.SLA",
+        "standard_framework_id": "GDF"
+    }, {
+        "id": "GDF.K12.ELD",
+        "title": "English Language Development",
+        "description": null,
+        "code": "GDF.K12.ELD",
+        "standard_framework_id": "GDF",
+        "frameworks": [{
+            "standard_framework_id": "CA",
+            "taxonomy_subject_id": "CA.K12.ELD",
+            "taxonomy_subject_title": "English Language Development",
+            "title": "California State Standards"
+        }, {
+            "standard_framework_id": "TEKS",
+            "taxonomy_subject_id": "TEKS.K12.SPESL",
+            "taxonomy_subject_title": "Spanish Language Arts and Reading and English as a Second Language",
+            "title": "Texas Essential Knowledge and Skills"
+        }]
+    }, {
+        "id": "GDF.K12.CS",
+        "title": "Computer Science",
+        "description": null,
+        "code": "GDF.K12.CS",
+        "standard_framework_id": "GDF"
+    }, {
+        "id": "GDF.K12.PF",
+        "title": "Personal Finance",
+        "description": null,
+        "code": "GDF.K12.PF",
+        "standard_framework_id": "GDF"
+    }, {
+        "id": "GDF.K12.HS",
+        "title": "Habits of Success",
+        "description": null,
+        "code": "GDF.K12.HS",
+        "standard_framework_id": "GDF"
+    }, {
+        "id": "GDF.K12.OT",
+        "title": "Other",
+        "description": null,
+        "code": "GDF.K12.OT",
+        "standard_framework_id": "GDF"
+    }]
 }
 ```
 
 **CURL snippet**
 
 ```posh
-curl -i  -H "Content-Type: application/json" -H "Authorization: Token 00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/subjects?classification_type=k_12
+curl -i  -H "Content-Type: application/json" -H "AuthorizatQ2NDE3OTAyNjE3MzoyN2I1MjFkNC05Y2VlLTQ4YzUtYTUwMi0wMmVhNTgzODQzNDY6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus-qa.gooru.org/api/nucleus/v1/taxonomy/subjects?classification_type=k_12
 ```
 
 ###Fetch taxonomy courses.
@@ -164,7 +212,7 @@ curl -i  -H "Content-Type: application/json" -H "Authorization: Token 00M2EzNjhi
 | Name | Summary |
 |------------------------|--------|
 | HTTP Method | GET |
-| End Point | /api/nucleus/{version}/taxonomy/frameworks/{framework-id}/courses |
+| End Point | /api/nucleus/{version}/taxonomy/frameworks/{framework-id}/subjects/{taxonomy-subject-id}/courses |
 | Auth | Required |
 | Request Body Type | None |
 | Request Body  | None |
@@ -180,19 +228,63 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 
 ```json
 {
-    "courses": [
-        {
-            "id": "TEXS~Math-Math-1",
-            "code": "TEXS.Math",
-            "title": "Mathematics",
-            "description": ""
-        },
-        {
-            "id": "TEXS~Math~Math2",
-            "code": "TEXS.Math2",
-            "title": "Mathematics 2"
-        }
-    ]
+    "courses": [{
+        "id": "TEKS.K12.PE-K",
+        "code": "TEKS.K12.PE-K",
+        "title": "Kindergarten"
+    }, {
+        "id": "TEKS.K12.PE-1",
+        "code": "TEKS.K12.PE-1",
+        "title": "Grade 1"
+    }, {
+        "id": "TEKS.K12.PE-2",
+        "code": "TEKS.K12.PE-2",
+        "title": "Grade 2"
+    }, {
+        "id": "TEKS.K12.PE-3",
+        "code": "TEKS.K12.PE-3",
+        "title": "Grade 3"
+    }, {
+        "id": "TEKS.K12.PE-4",
+        "code": "TEKS.K12.PE-4",
+        "title": "Grade 4"
+    }, {
+        "id": "TEKS.K12.PE-5",
+        "code": "TEKS.K12.PE-5",
+        "title": "Grade 5"
+    }, {
+        "id": "TEKS.K12.PE-6",
+        "code": "TEKS.K12.PE-6",
+        "title": "Grade 6"
+    }, {
+        "id": "TEKS.K12.PE-7",
+        "code": "TEKS.K12.PE-7",
+        "title": "Grade 7"
+    }, {
+        "id": "TEKS.K12.PE-8",
+        "code": "TEKS.K12.PE-8",
+        "title": "Grade 8"
+    }, {
+        "id": "TEKS.K12.PE-FPF",
+        "code": "TEKS.K12.PE-FPF",
+        "title": "Foundations of Personal Fitness"
+    }, {
+        "id": "TEKS.K12.PE-AOE",
+        "code": "TEKS.K12.PE-AOE",
+        "title": "Adventure/Outdoor Education"
+    }, {
+        "id": "TEKS.K12.PE-AA",
+        "code": "TEKS.K12.PE-AA",
+        "title": "Aerobic Activities"
+    }, {
+        "id": "TEKS.K12.PE-IS",
+        "code": "TEKS.K12.PE-IS",
+        "title": "Individual Sports"
+    }, {
+        "id": "TEKS.K12.PE-TS",
+        "code": "TEKS.K12.PE-TS",
+        "title": "Team Sports"
+    }]
 }
 
 ```
@@ -200,7 +292,7 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 **CURL snippet**
 
 ```posh
-curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses
+curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ2NDE3OTAyNjE3MzoyN2I1MjFkNC05Y2VlLTQ4YzUtYTUwMi0wMmVhNTgzODQzNDY6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus-qa.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEKS/subjects/TEKS.K12.PE/courses
 ```
 
 ###Fetch taxonomy domains.
@@ -210,7 +302,7 @@ curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1OD
 | Name | Summary |
 |------------------------|--------|
 | HTTP Method | GET |
-| End Point | /api/nucleus/{version}/taxonomy/frameworks/{framework-id}/courses/{taxonomy-course-id}/domains |
+| End Point | /api/nucleus/{version}/taxonomy/frameworks/{framework-id}/subjects/{taxonomy-subject-id}/courses/{taxonomy-course-id}/domains |
 | Auth | Required |
 | Request Body Type | None |
 | Request Body  | None |
@@ -226,28 +318,26 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 
 ```json
 {
-    "domains": [
-        {
-            "id": "TEXS~Math~Math-1~NA-F2",
-            "code": "NA-F2",
-            "title": "Numeric fraction 2",
-            "description": ""
-        },
-        {
-            "id": "TEXS~Math~Math-1~NA-F",
-            "default_taxonomy_domain_id": "",
-            "code": "NA-F ",
-            "title": "Numeric fraction",
-            "description": ""
-        }
-    ]
+    "domains": [{
+        "id": "TEKS.K12.PE-K-MOV",
+        "code": "TEKS.K12.PE-K-MOV",
+        "title": "Movement"
+    }, {
+        "id": "TEKS.K12.PE-K-PAH",
+        "code": "TEKS.K12.PE-K-PAH",
+        "title": "Physical activity and health"
+    }, {
+        "id": "TEKS.K12.PE-K-SD",
+        "code": "TEKS.K12.PE-K-SD",
+        "title": "Social development"
+    }]
 }
 ```
 
 **CURL snippet**
 
 ```posh
-curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1ODIwMDI1MTo0Y2M4MWQ4ZS03MjFjLTQ5ZDItYmVmMy00M2EzNjhiNTg4NzA6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEXS/subjects/TEXS~Math/courses/TEXS~Math-Math-1/domains
+curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ2NDE3OTAyNjE3MzoyN2I1MjFkNC05Y2VlLTQ4YzUtYTUwMi0wMmVhNTgzODQzNDY6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus-qa.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEKS/subjects/TEKS.K12.PE/courses/TEKS.K12.PE-K/domains
 ```
 
 ###Fetch taxonomy codes.
@@ -257,7 +347,7 @@ curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ1NzM1OD
 | Name | Summary |
 |------------------------|--------|
 | HTTP Method | GET |
-| End Point | /api/nucleus/{version}/taxonomy/frameworks/{framework-id}/courses/{taxonomy-course-id}/domains/{taxonomy-domain-id}/codes |
+| End Point | /api/nucleus/{version}/taxonomy/frameworks/{framework-id}/subjects/{taxonomy-subject-id}/courses/{taxonomy-course-id}/domains/{taxonomy-domain-id}/codes |
 | Auth | Required |
 | Request Body Type | None |
 | Request Body  | None |
@@ -273,15 +363,89 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 
 ```json
 {
-    "codes": [
-        {
-            "code": "NA.F2.PHS",
-            "title": "physics",
-            "description": "",
-            "code_type": "standard_level_0",
-            "is_selectable": false
-        }
-    ]
+    "codes": [{
+        "id": "TEKS.K12.PE-K-MOV-01.01",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-01",
+        "code": "TEKS.PE.K.1.A",
+        "title": "Travel in different ways in a large group without bumping into others or falling.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-02.01",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-02",
+        "code": "TEKS.PE.K.2.A",
+        "title": "Identify selected body parts such as head, back, chest, waist, hips, arms, elbows, wrists, hands, fingers, legs, knees, ankles, feet, and toes.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-01",
+        "code": "TEKS.PE.K.1",
+        "title": "The student demonstrates competency in fundamental movement patterns and proficiency in a few specialized movement forms.",
+        "code_type": "standard_level_1",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-02.02",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-02",
+        "code": "TEKS.PE.K.2.B",
+        "title": "Demonstrate movement forms of various body parts such as head flexion, extension, and rotation.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-01.02",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-01",
+        "code": "TEKS.PE.K.1.B",
+        "title": "Demonstrate clear contrasts between slow and fast movement when traveling.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-02",
+        "code": "TEKS.PE.K.2",
+        "title": "The student applies movement concepts and principles to the learning and development of motor skills.",
+        "code_type": "standard_level_1",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-01.03",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-01",
+        "code": "TEKS.PE.K.1.C",
+        "title": "Demonstrate non-locomotor (axial) movements such as bend and stretch.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-01.04",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-01",
+        "code": "TEKS.PE.K.1.D",
+        "title": "Maintain balance while bearing weight on a variety of body parts.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-01.05",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-01",
+        "code": "TEKS.PE.K.1.E",
+        "title": "Walk forward and sideways the length of a beam without falling.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-01.06",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-01",
+        "code": "TEKS.PE.K.1.F",
+        "title": "Demonstrate a variety of relationships such as under, over, behind, next to, through, right, left, up, down, forward, backward, and in front of.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-01.07",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-01",
+        "code": "TEKS.PE.K.1.G",
+        "title": "Roll sideways (right or left) without hesitating.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }, {
+        "id": "TEKS.K12.PE-K-MOV-01.08",
+        "parent_taxonomy_code_id": "TEKS.K12.PE-K-MOV-01",
+        "code": "TEKS.PE.K.1.H",
+        "title": "Toss a ball and catch it before it bounces twice.",
+        "code_type": "standard_level_2",
+        "is_selectable": false
+    }]
 }
 ```
 
