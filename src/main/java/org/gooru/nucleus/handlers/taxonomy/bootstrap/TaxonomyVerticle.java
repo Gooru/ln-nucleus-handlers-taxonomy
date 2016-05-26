@@ -1,20 +1,18 @@
 package org.gooru.nucleus.handlers.taxonomy.bootstrap;
 
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
+import io.vertx.core.eventbus.EventBus;
+
 import org.gooru.nucleus.handlers.taxonomy.bootstrap.shutdown.Finalizer;
 import org.gooru.nucleus.handlers.taxonomy.bootstrap.shutdown.Finalizers;
 import org.gooru.nucleus.handlers.taxonomy.bootstrap.startup.Initializer;
 import org.gooru.nucleus.handlers.taxonomy.bootstrap.startup.Initializers;
-import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
 import org.gooru.nucleus.handlers.taxonomy.constants.MessagebusEndpoints;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
-import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.json.JsonObject;
 
 public class TaxonomyVerticle extends AbstractVerticle {
 

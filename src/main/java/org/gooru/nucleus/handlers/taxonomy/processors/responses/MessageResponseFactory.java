@@ -1,8 +1,8 @@
 package org.gooru.nucleus.handlers.taxonomy.processors.responses;
 
-import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
-
 import io.vertx.core.json.JsonObject;
+
+import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
 
 public final class MessageResponseFactory {
     private MessageResponseFactory() {

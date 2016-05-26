@@ -1,9 +1,9 @@
 package org.gooru.nucleus.handlers.taxonomy.processors;
 
-import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
-
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
+
+import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
 
 public class ProcessorContext {
 

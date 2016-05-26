@@ -1,12 +1,12 @@
 package org.gooru.nucleus.handlers.taxonomy.processors.responses;
 
+import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.core.json.JsonObject;
+
 import org.gooru.nucleus.handlers.taxonomy.constants.HttpConstants;
 import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.vertx.core.eventbus.DeliveryOptions;
-import io.vertx.core.json.JsonObject;
 
 public final class MessageResponse {
 
