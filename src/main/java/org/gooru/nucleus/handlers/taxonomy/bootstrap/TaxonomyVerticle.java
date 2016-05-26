@@ -38,19 +38,7 @@ public class TaxonomyVerticle extends AbstractVerticle {
                     }, res -> {
                         MessageResponse result = (MessageResponse) res.result();
                         message.reply(result.reply(), result.deliveryOptions());
-
                         LOGGER.debug("Event Data : " + result.event());
-                        JsonObject eventData = result.event();
-                        if (eventData != null) {
-                            String sessionToken =
-                                ((JsonObject) message.body()).getString(MessageConstants.MSG_HEADER_TOKEN);
-                            if (sessionToken != null && !sessionToken.isEmpty()) {
-                                eventData.put(MessageConstants.MSG_HEADER_TOKEN, sessionToken);
-                            } else {
-                                LOGGER.warn("Invalid session token received");
-                            }
-                            eb.send(MessagebusEndpoints.MBEP_EVENT, eventData);
-                        }
                     });
                 }).completionHandler(result -> {
                     if (result.succeeded()) {
