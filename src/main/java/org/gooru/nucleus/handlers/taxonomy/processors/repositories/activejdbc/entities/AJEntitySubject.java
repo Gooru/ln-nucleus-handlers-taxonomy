@@ -12,5 +12,5 @@ public class AJEntitySubject extends Model {
   public final static String STANDARD_FRAMEWORK_ID = "standard_framework_id";
   public final static String DESCRIPTION = "description";
   public final static String SUBJECTS_GET = "subject_classification = ?::subject_classification_type and standard_framework_id = ? and  is_visible = true";
-  public final static String GUF_SUBJECTS_GET = "subject_classification = ?::subject_classification_type and standard_framework_id is null and  is_visible = true";
+  public final static String GUF_SUBJECTS_GET = "subject_classification = ?::subject_classification_type and standard_framework_id is null and default_taxonomy_subject_id is null and  is_visible = true";
 }
