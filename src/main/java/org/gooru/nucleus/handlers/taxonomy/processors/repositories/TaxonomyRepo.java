@@ -10,4 +10,6 @@ public interface TaxonomyRepo {
     MessageResponse fetchDomains();
 
     MessageResponse fetchDomainStandards();
+
+    MessageResponse fetchCodes();
 }

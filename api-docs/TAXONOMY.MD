@@ -454,3 +454,72 @@ Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWE
 curl -i  -H "Content-Type: application/json" -H "Authorization: Token MTQ2NDE3OTAyNjE3MzoyN2I1MjFkNC05Y2VlLTQ4YzUtYTUwMi0wMmVhNTgzODQzNDY6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET http://nucleus-qa.gooru.org/api/nucleus/v1/taxonomy/frameworks/TEKS/subjects/TEKS.K12.PE/courses/TEKS.K12.PE-K/domains/TEKS.K12.PE-K-MOV/codes
 ```
 
+###Fetch multiple taxonomy codes by ids.
+
+**Rest API details**
+
+| Name | Summary |
+|------------------------|--------|
+| HTTP Method | GET |
+| End Point | /api/nucleus/{version}/taxonomy/codes?idList={taxonomy_standard_ids} |
+| Auth | Required |
+| Request Body Type | None |
+| Request Body  | None |
+| Response Code | 200 Successful |
+
+**Authorization Header**
+
+```
+Authorization: Token MTQ1NTc5OTI3NDU0Mzphbm9ueW1vdXM6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2
+```
+
+**Response body**
+
+```json
+{
+  "codes": [
+    {
+      "id": "TEKS.K12.PE-7-PAH-02.02",
+      "parent_taxonomy_code_id": "TEKS.K12.PE-7-PAH-02",
+      "code": "TEKS.PE.7.4.B",
+      "title": "Assess physiological effects of exercise during and after physical activity.",
+      "code_type": "standard_level_2",
+      "is_selectable": false,
+      "sequence_id": 2
+    },
+    {
+      "id": "TEKS.K12.PE-7-PAH-03.05",
+      "parent_taxonomy_code_id": "TEKS.K12.PE-7-PAH-03",
+      "code": "TEKS.PE.7.5.E",
+      "title": "Recognize harmful effects of the sun such as sunburn, heatstroke, heat exhaustion, and heat cramps and recommend prevention methods.",
+      "code_type": "standard_level_2",
+      "is_selectable": false,
+      "sequence_id": 5
+    },
+    {
+      "id": "TEKS.K12.PE-8-MOV-01.02",
+      "parent_taxonomy_code_id": "TEKS.K12.PE-8-MOV-01",
+      "code": "TEKS.PE.8.1.B",
+      "title": "Demonstrate appropriate relationships of the body to an opponent in dynamic game situations such as staying between opponent and goal and moving between opponent and the ball.",
+      "code_type": "standard_level_2",
+      "is_selectable": false,
+      "sequence_id": 2
+    },
+    {
+      "id": "TEKS.K12.PE-AOE-PAH-03.06",
+      "parent_taxonomy_code_id": "TEKS.K12.PE-AOE-PAH-03",
+      "code": "TEKS.PE.AOE.4.F",
+      "title": "Design safe and appropriate practices/procedures to improve skill in an activity.",
+      "code_type": "standard_level_2",
+      "is_selectable": false,
+      "sequence_id": 6
+    }
+  ]
+}
+```
+
+**CURL snippet**
+
+```posh
+curl -i -H "Content-Type: application/json" -H "Authorization: Token MTQ2NDE3OTAyNjE3MzoyN2I1MjFkNC05Y2VlLTQ4YzUtYTUwMi0wMmVhNTgzODQzNDY6YmE5NTZhOTctYWUxNS0xMWU1LWEzMDItZjhhOTYzMDY1OTc2" -X GET "http://nucleus-qa.gooru.org/api/nucleus/v1/taxonomy/codes?idList=TEKS.K12.PE-AOE-PAH-03.06,TEKS.K12.PE-8-MOV-01.02,TEKS.K12.PE-7-PAH-03.05,TEKS.K12.PE-7-PAH-02.02"
+```

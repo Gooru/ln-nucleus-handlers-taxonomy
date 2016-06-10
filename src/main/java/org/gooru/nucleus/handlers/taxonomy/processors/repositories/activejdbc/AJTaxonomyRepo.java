@@ -33,4 +33,9 @@ class AJTaxonomyRepo implements TaxonomyRepo {
     public MessageResponse fetchDomains() {
         return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchDomainsHandler(context));
     }
+
+    @Override
+    public MessageResponse fetchCodes() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCodesHandler(context));
+    }
 }

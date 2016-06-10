@@ -50,8 +50,4 @@ public class ProcessorContext {
         return this.headers != null ? this.headers.get(MessageConstants.ID_TX_STANDARD_FRAMEWORK) : null;
     }
 
-    public String codeId() {
-        return this.headers != null ? this.headers.get(MessageConstants.ID_TX_CODE) : null;
-    }
-
 }

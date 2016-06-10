@@ -53,6 +53,9 @@ class MessageProcessor implements Processor {
             case MessageConstants.MSG_OP_TAXONOMY_DOMAIN_CODES_GET:
                 result = processDomainStandards();
                 break;
+            case MessageConstants.MSG_OP_TAXONOMY_CODES_GET:
+                result = processCodes();
+                break;
             default:
                 LOGGER.error("Invalid operation type passed in, not able to handle");
                 return MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE
@@ -83,6 +86,11 @@ class MessageProcessor implements Processor {
     private MessageResponse processDomainStandards() {
         ProcessorContext context = createContext();
         return RepoBuilder.buildTaxonomyRepo(context).fetchDomainStandards();
+    }
+    
+    private MessageResponse processCodes() {
+        ProcessorContext context = createContext();
+        return RepoBuilder.buildTaxonomyRepo(context).fetchCodes();
     }
 
     private ProcessorContext createContext() {
