@@ -9,8 +9,11 @@ import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.ModelDelegate;
 import org.javalite.common.Convert;
-import org.javalite.common.Escape;
 import org.postgresql.util.PGobject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.vertx.core.impl.StringEscapeUtils;
 
 
 /**
@@ -22,6 +25,7 @@ import org.postgresql.util.PGobject;
 class SimpleJsonFormatter implements JsonFormatter {
     private final String[] attributes;
     private final boolean pretty;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleJsonFormatter.class);
 
     public SimpleJsonFormatter(boolean pretty, List<String> attributes) {
         this.pretty = pretty;
@@ -95,7 +99,13 @@ class SimpleJsonFormatter implements JsonFormatter {
                     sb.append(Convert.toString(v));
                 } else {
                     sb.append('"');
-                    Escape.json(sb, Convert.toString(v));
+                    try {
+                        sb.append(StringEscapeUtils.escapeJava(String.valueOf(v)));
+                    } catch (Exception e) {
+                        LOGGER
+                            .warn("Failed to parse value of field '{}', will use default string without conversion ", name);
+                        sb.append(Convert.toString(v));
+                    }
                     sb.append('"');
                 }
                 count = 1;
