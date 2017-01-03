@@ -1,9 +1,9 @@
 package org.gooru.nucleus.handlers.taxonomy.processors;
 
+import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
+
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-
-import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
 
 public class ProcessorContext {
 
@@ -48,6 +48,10 @@ public class ProcessorContext {
 
     public String standardFrameworkId() {
         return this.headers != null ? this.headers.get(MessageConstants.ID_TX_STANDARD_FRAMEWORK) : null;
+    }
+
+    public MultiMap requestHeaders() {
+        return this.headers;
     }
 
 }

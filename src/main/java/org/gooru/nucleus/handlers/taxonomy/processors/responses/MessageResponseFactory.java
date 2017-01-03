@@ -1,10 +1,15 @@
 package org.gooru.nucleus.handlers.taxonomy.processors.responses;
 
-import io.vertx.core.json.JsonObject;
-
+import org.gooru.nucleus.handlers.taxonomy.constants.HttpConstants;
 import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
 
+import io.vertx.core.json.JsonObject;
+
 public final class MessageResponseFactory {
+
+    private static final String API_VERSION_DEPRECATED = "API version is deprecated";
+    private static final String API_VERSION_NOT_SUPPORTED = "API version is not supported";
+
     private MessageResponseFactory() {
         throw new AssertionError();
     }
@@ -53,6 +58,12 @@ public final class MessageResponseFactory {
 
     public static MessageResponse createOkayResponse(JsonObject body) {
         return new MessageResponse.Builder().successful().setStatusOkay().setResponseBody(body).build();
+    }
+
+    public static MessageResponse createVersionDeprecatedResponse() {
+        return new MessageResponse.Builder().failed().setStatusHttpCode(HttpConstants.HttpStatus.GONE)
+            .setContentTypeJson()
+            .setResponseBody(new JsonObject().put(MessageConstants.MSG_MESSAGE, API_VERSION_DEPRECATED)).build();
     }
 
 }
