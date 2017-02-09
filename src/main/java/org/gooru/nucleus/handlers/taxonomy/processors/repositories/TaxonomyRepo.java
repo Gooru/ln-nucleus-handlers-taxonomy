@@ -12,4 +12,8 @@ public interface TaxonomyRepo {
     MessageResponse fetchDomainStandards();
 
     MessageResponse fetchCodes();
+
+    MessageResponse fetchCrosswalkGDFWCodes();
+
+    MessageResponse fetchCrosswalkFWCodes();
 }
