@@ -35,5 +35,9 @@ public final class DBHandlerBuilder {
     public static DBHandler buildFetchCrosswalkFWCodesHandler(ProcessorContext context) {
         return new FetchCrosswalkFWCodesHandler(context);
     }
+    
+    public static DBHandler buildTaxonomyTransformationHandler(ProcessorContext context) {
+        return new TaxonomyTransformationHandler(context);
+    }
 
 }

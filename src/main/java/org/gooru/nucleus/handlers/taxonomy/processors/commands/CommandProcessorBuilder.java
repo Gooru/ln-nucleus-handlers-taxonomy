@@ -58,17 +58,23 @@ public enum CommandProcessorBuilder {
         public Processor build(ProcessorContext context) {
             return new TaxonomyCodesProcessor(context);
         }
-    }, 
+    },
     TAXONOMY_CROSSWALK_GDFW_CODES_GET(MessageConstants.MSG_OP_TAXONOMY_CROSSWALK_GDFW_GET) {
         @Override
         public Processor build(ProcessorContext context) {
             return new TaxonomyCrosswalkGDFWCodesProcessor(context);
         }
-    }, 
+    },
     TAXONOMY_CROSSWALK_FW_CODES_GET(MessageConstants.MSG_OP_TAXONOMY_CROSSWALK_FW_GET) {
         @Override
         public Processor build(ProcessorContext context) {
             return new TaxonomyCrosswalkFWCodesProcessor(context);
+        }
+    },
+    TAXONOMY_TRANSFORM(MessageConstants.MSG_OP_TAXONOMY_TRANSFORM) {
+        @Override
+        public Processor build(ProcessorContext context) {
+            return new TaxonomyTransformProcessor(context);
         }
     };
 

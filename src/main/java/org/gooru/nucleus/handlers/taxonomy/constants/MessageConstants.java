@@ -30,6 +30,7 @@ public final class MessageConstants {
     public static final String MSG_OP_TAXONOMY_CODES_GET = "taxonomy.codes.get";
     public static final String MSG_OP_TAXONOMY_CROSSWALK_GDFW_GET = "taxonomy.crosswalk.gdfw.get";
     public static final String MSG_OP_TAXONOMY_CROSSWALK_FW_GET = "taxonomy.crosswalk.fw.get";
+    public static final String MSG_OP_TAXONOMY_TRANSFORM = "taxonomy.transform";
 
     public static final String ID_TX_SUBJECT = "subjectId";
     public static final String ID_TX_COURSE = "courseId";

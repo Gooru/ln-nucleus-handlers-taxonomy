@@ -48,4 +48,9 @@ class AJTaxonomyRepo implements TaxonomyRepo {
     public MessageResponse fetchCrosswalkFWCodes() {
         return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCrosswalkFWCodesHandler(context));
     }
+
+    @Override
+    public MessageResponse transformTaxonomy() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildTaxonomyTransformationHandler(context));
+    }
 }

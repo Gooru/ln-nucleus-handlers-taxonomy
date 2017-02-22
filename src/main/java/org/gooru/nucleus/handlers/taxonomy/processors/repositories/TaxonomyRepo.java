@@ -16,4 +16,6 @@ public interface TaxonomyRepo {
     MessageResponse fetchCrosswalkGDFWCodes();
 
     MessageResponse fetchCrosswalkFWCodes();
+    
+    MessageResponse transformTaxonomy();
 }
