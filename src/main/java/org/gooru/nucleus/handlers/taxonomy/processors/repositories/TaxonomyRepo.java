@@ -18,4 +18,6 @@ public interface TaxonomyRepo {
     MessageResponse fetchCrosswalkFWCodes();
     
     MessageResponse transformTaxonomy();
+    
+    MessageResponse fetchStandardFrameworks();
 }

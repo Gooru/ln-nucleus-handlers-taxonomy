@@ -76,6 +76,12 @@ public enum CommandProcessorBuilder {
         public Processor build(ProcessorContext context) {
             return new TaxonomyTransformProcessor(context);
         }
+    },
+    TAXONOMY_STANDARD_FRAMEWORKS(MessageConstants.MSG_OP_TAXONOMY_FRAMEWORKS_GET) {
+        @Override
+        public Processor build(ProcessorContext context) {
+            return new TaxonomyStandardFrameworksProcessor(context);
+        }
     };
 
     private String name;
