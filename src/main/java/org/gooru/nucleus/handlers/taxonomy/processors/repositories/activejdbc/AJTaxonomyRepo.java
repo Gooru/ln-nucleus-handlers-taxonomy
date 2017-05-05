@@ -43,7 +43,7 @@ class AJTaxonomyRepo implements TaxonomyRepo {
     public MessageResponse fetchCrosswalkGDFWCodes() {
         return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCrosswalkGDFWCodesHandler(context));
     }
-    
+
     @Override
     public MessageResponse fetchCrosswalkFWCodes() {
         return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCrosswalkFWCodesHandler(context));
@@ -52,5 +52,10 @@ class AJTaxonomyRepo implements TaxonomyRepo {
     @Override
     public MessageResponse transformTaxonomy() {
         return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildTaxonomyTransformationHandler(context));
+    }
+
+    @Override
+    public MessageResponse fetchStandardFrameworks() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchStandardFrameworksHandler(context));
     }
 }
