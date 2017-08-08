@@ -1,23 +1,23 @@
 package org.gooru.nucleus.handlers.taxonomy.processors;
 
+import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
+
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
-
-import org.gooru.nucleus.handlers.taxonomy.constants.MessageConstants;
 
 public class ProcessorContext {
 
     private final String userId;
-    private final JsonObject prefs;
+    private final JsonObject session;
     private final JsonObject request;
     private final MultiMap headers;
 
-    public ProcessorContext(String userId, JsonObject prefs, JsonObject request, MultiMap headers) {
-        if (prefs == null || userId == null || prefs.isEmpty()) {
+    public ProcessorContext(String userId, JsonObject session, JsonObject request, MultiMap headers) {
+        if (session == null || userId == null || session.isEmpty()) {
             throw new IllegalStateException("Processor Context creation failed because of invalid values");
         }
         this.userId = userId;
-        this.prefs = prefs.copy();
+        this.session = session.copy();
         this.request = request != null ? request.copy() : null;
         this.headers = headers;
     }
@@ -26,8 +26,8 @@ public class ProcessorContext {
         return this.userId;
     }
 
-    public JsonObject prefs() {
-        return this.prefs.copy();
+    public JsonObject session() {
+        return this.session.copy();
     }
 
     public JsonObject request() {
@@ -48,6 +48,10 @@ public class ProcessorContext {
 
     public String standardFrameworkId() {
         return this.headers != null ? this.headers.get(MessageConstants.ID_TX_STANDARD_FRAMEWORK) : null;
+    }
+
+    public MultiMap requestHeaders() {
+        return this.headers;
     }
 
 }

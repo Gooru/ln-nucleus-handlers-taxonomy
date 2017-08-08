@@ -11,6 +11,7 @@ import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.fo
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponseFactory;
+import org.gooru.nucleus.handlers.taxonomy.processors.utils.HelperUtils;
 import org.javalite.activejdbc.LazyList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +59,7 @@ public class FetchCodesHandler implements DBHandler {
     public ExecutionResult<MessageResponse> executeRequest() {
         String[] codeIds = COMMA.split(codeIdList);
         LazyList<AJEntityTaxonomyCode> results =        
-                        AJEntityTaxonomyCode.where(AJEntityTaxonomyCode.TAXONOMY_CODE_GET, toPostgresArrayString(codeIds));
+                        AJEntityTaxonomyCode.where(AJEntityTaxonomyCode.TAXONOMY_CODE_GET, HelperUtils.toPostgresArrayString(codeIds));
         if (codeIds.length != results.size()) {
             LOGGER.warn("id count does not match with count in database");
             return new ExecutionResult<>(
@@ -75,26 +76,6 @@ public class FetchCodesHandler implements DBHandler {
     @Override
     public boolean handlerReadOnly() {
         return true;
-    }
-    
-    public static String toPostgresArrayString(String[] input) {
-        if (input.length == 0) {
-            return "{}";
-        }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append('{');
-        int count = 1;
-        for (String code : input) {
-            sb.append('"').append(code).append('"');
-            if (count == input.length) {
-                return sb.append('}').toString();
-            }
-            sb.append(',');
-            count++;
-        }
-
-        return null;
     }
     
     private String readRequestParam(String param) {

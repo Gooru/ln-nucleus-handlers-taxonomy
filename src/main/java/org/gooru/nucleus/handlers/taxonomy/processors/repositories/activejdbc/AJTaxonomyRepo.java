@@ -38,4 +38,24 @@ class AJTaxonomyRepo implements TaxonomyRepo {
     public MessageResponse fetchCodes() {
         return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCodesHandler(context));
     }
+
+    @Override
+    public MessageResponse fetchCrosswalkGDFWCodes() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCrosswalkGDFWCodesHandler(context));
+    }
+
+    @Override
+    public MessageResponse fetchCrosswalkFWCodes() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchCrosswalkFWCodesHandler(context));
+    }
+
+    @Override
+    public MessageResponse transformTaxonomy() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildTaxonomyTransformationHandler(context));
+    }
+
+    @Override
+    public MessageResponse fetchStandardFrameworks() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchStandardFrameworksHandler(context));
+    }
 }
