@@ -27,4 +27,21 @@ public final class DBHandlerBuilder {
     public static DBHandler buildFetchCodesHandler(ProcessorContext context) {
         return new FetchCodesHandler(context);
     }
+
+    public static DBHandler buildFetchCrosswalkGDFWCodesHandler(ProcessorContext context) {
+        return new FetchCrosswalkGDFWCodesHandler(context);
+    }
+
+    public static DBHandler buildFetchCrosswalkFWCodesHandler(ProcessorContext context) {
+        return new FetchCrosswalkFWCodesHandler(context);
+    }
+
+    public static DBHandler buildTaxonomyTransformationHandler(ProcessorContext context) {
+        return new TaxonomyTransformationHandler(context);
+    }
+
+    public static DBHandler buildFetchStandardFrameworksHandler(ProcessorContext context) {
+        return new FetchStandardFrameworksHandler(context);
+    }
+
 }
