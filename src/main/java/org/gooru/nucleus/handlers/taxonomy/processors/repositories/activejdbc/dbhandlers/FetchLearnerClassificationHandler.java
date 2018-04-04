@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
-import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityFramework;
+import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityLearnerClassification;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTenant;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTenantSetting;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.formatter.JsonFormatterBuilder;
@@ -22,14 +22,14 @@ import org.slf4j.LoggerFactory;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-class FetchStandardFrameworksHandler implements DBHandler {
+class FetchLearnerClassificationHandler implements DBHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FetchStandardFrameworksHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FetchLearnerClassificationHandler.class);
     public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
     private final ProcessorContext context;
     private final List<String> tenantIds = new ArrayList<>();
 
-    public FetchStandardFrameworksHandler(ProcessorContext context) {
+    public FetchLearnerClassificationHandler(ProcessorContext context) {
         this.context = context;
     }
 
@@ -60,20 +60,23 @@ class FetchStandardFrameworksHandler implements DBHandler {
         if (tenantVisibility.contains(HelperConstants.TENANT)) {
             this.tenantIds.add(context.tenant());
         }
+
         return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
     }
 
     @Override
     public ExecutionResult<MessageResponse> executeRequest() {
-        LazyList<AJEntityFramework> results = AJEntityFramework
-            .where(AJEntityFramework.STANDARD_FRAMEWORK, HelperUtils.toPostgresArrayString(this.tenantIds.toArray()))
-            .orderBy(HelperConstants.TENANT).orderBy(HelperConstants.SEQUENCE_ID);
+        LazyList<AJEntityLearnerClassification> results =
+            AJEntityLearnerClassification.findBySQL(AJEntityLearnerClassification.SELECT_LEARNER_CLASSIFICATIONS,
+                HelperUtils.toPostgresArrayString(this.tenantIds.toArray()));
         JsonArray jsonResults = new JsonArray(JsonFormatterBuilder
-            .buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_FRAMEWORK_RESPONSE_FIELDS))
+            .buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_LEARNER_CLASSIFICATION_RESPONSE_FIELDS))
             .toJson(results));
         return new ExecutionResult<>(
-            MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.FRAMEWORKS, jsonResults)),
+            MessageResponseFactory
+                .createOkayResponse(new JsonObject().put(HelperConstants.LEARNER_CLASSIFICATIONS, jsonResults)),
             ExecutionResult.ExecutionStatus.SUCCESSFUL);
+
     }
 
     @Override

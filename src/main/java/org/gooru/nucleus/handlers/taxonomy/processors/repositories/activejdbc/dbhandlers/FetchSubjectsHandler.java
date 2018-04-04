@@ -3,6 +3,7 @@ package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.d
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +13,12 @@ import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityFramework;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntitySubject;
+import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTenant;
+import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTenantSetting;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.formatter.JsonFormatterBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult.ExecutionStatus;
+import org.gooru.nucleus.handlers.taxonomy.processors.utils.HelperUtils;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponseFactory;
 import org.javalite.activejdbc.Base;
@@ -29,6 +33,7 @@ class FetchSubjectsHandler implements DBHandler {
     private final ProcessorContext context;
     private String classificationType = null;
     private String standardFrameworkId = null;
+    private final List<String> tenantIds = new ArrayList<>();
 
     public FetchSubjectsHandler(ProcessorContext context) {
         this.context = context;
@@ -38,14 +43,15 @@ class FetchSubjectsHandler implements DBHandler {
     public ExecutionResult<MessageResponse> checkSanity() {
         if (context.userId() == null || context.userId().isEmpty()) {
             LOGGER.warn("Invalid user");
-            return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(RESOURCE_BUNDLE
-                .getString("not.allowed")), ExecutionResult.ExecutionStatus.FAILED);
+            return new ExecutionResult<>(
+                MessageResponseFactory.createForbiddenResponse(RESOURCE_BUNDLE.getString("not.allowed")),
+                ExecutionResult.ExecutionStatus.FAILED);
         }
         JsonArray classification = context.request().getJsonArray(HelperConstants.CLASSIFICATION_TYPE);
         if (context.request() == null || classification == null || classification.isEmpty()) {
             LOGGER.warn("classification type is missing.");
-            return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(RESOURCE_BUNDLE
-                .getString("missing.classification.type")), ExecutionStatus.FAILED);
+            return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(
+                RESOURCE_BUNDLE.getString("missing.classification.type")), ExecutionStatus.FAILED);
         }
         this.classificationType = classification.getString(0);
 
@@ -59,6 +65,20 @@ class FetchSubjectsHandler implements DBHandler {
 
     @Override
     public ExecutionResult<MessageResponse> validateRequest() {
+        LazyList<AJEntityTenantSetting> tenantSettings =
+            AJEntityTenantSetting.findBySQL(AJEntityTenantSetting.SELECT_TENANT_SETTING, context.tenant());
+        AJEntityTenantSetting tenantSetting = tenantSettings.size() > 0 ? tenantSettings.get(0) : null;
+        final String tenantVisibility =
+            tenantSetting != null ? tenantSetting.getString(AJEntityTenantSetting.VALUE) : HelperConstants.GLOBAL;
+        if (tenantVisibility.contains(HelperConstants.GLOBAL)) {
+            LazyList<AJEntityTenant> tenants =
+                AJEntityTenant.findBySQL(AJEntityTenant.SELECT_GLOBAL_AND_DISCOVERABLE_TENANTS);
+            tenants.forEach(tenant -> this.tenantIds.add(tenant.getString(AJEntityTenant.ID)));
+        }
+
+        if (tenantVisibility.contains(HelperConstants.TENANT)) {
+            this.tenantIds.add(context.tenant());
+        }
         return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
     }
 
@@ -66,37 +86,39 @@ class FetchSubjectsHandler implements DBHandler {
     @Override
     public ExecutionResult<MessageResponse> executeRequest() {
         if (standardFrameworkId == null) {
-            LazyList<AJEntitySubject> results =
-                AJEntitySubject.where(AJEntitySubject.GUF_SUBJECTS_GET, this.classificationType).orderBy(
-                    HelperConstants.SEQUENCE_ID);
+            LazyList<AJEntitySubject> results = AJEntitySubject
+                .where(AJEntitySubject.GUF_SUBJECTS_GET, this.classificationType,
+                    HelperUtils.toPostgresArrayString(this.tenantIds.toArray()))
+                .orderBy(HelperConstants.TENANT).orderBy(HelperConstants.SEQUENCE_ID);
             JsonArray jsonResults = new JsonArray();
-            results
-                .forEach(result -> {
-                    JsonObject jsonObject = new JsonObject();
-                    jsonObject.put(AJEntitySubject.ID, result.get(AJEntitySubject.ID));
-                    jsonObject.put(AJEntitySubject.TITLE, result.get(AJEntitySubject.TITLE));
-                    jsonObject.put(AJEntitySubject.DESCRIPTION, result.get(AJEntitySubject.DESCRIPTION));
-                    jsonObject.put(AJEntitySubject.CODE, result.get(AJEntitySubject.CODE));
-                    jsonObject.put(AJEntitySubject.STANDARD_FRAMEWORK_ID,
-                        result.get(AJEntitySubject.STANDARD_FRAMEWORK_ID));
-                    if (result.getBoolean(AJEntitySubject.HAS_STANDARD_FRAMEWORK)) {
-                        List<Map> frameworkResults =
-                            Base.findAll(AJEntityFramework.STANDARD_FRAMEWORKS, result.get(AJEntitySubject.ID));
-                        jsonObject.put(AJEntityFramework.FRAMEWORKS, frameworkResults);
-                    }
-                    jsonResults.add(jsonObject);
-                });
-            return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(
-                HelperConstants.SUBJECTS, jsonResults)), ExecutionResult.ExecutionStatus.SUCCESSFUL);
+            results.forEach(result -> {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.put(AJEntitySubject.ID, result.get(AJEntitySubject.ID));
+                jsonObject.put(AJEntitySubject.TITLE, result.get(AJEntitySubject.TITLE));
+                jsonObject.put(AJEntitySubject.DESCRIPTION, result.get(AJEntitySubject.DESCRIPTION));
+                jsonObject.put(AJEntitySubject.CODE, result.get(AJEntitySubject.CODE));
+                jsonObject.put(AJEntitySubject.STANDARD_FRAMEWORK_ID,
+                    result.get(AJEntitySubject.STANDARD_FRAMEWORK_ID));
+                if (result.getBoolean(AJEntitySubject.HAS_STANDARD_FRAMEWORK)) {
+                    List<Map> frameworkResults = Base.findAll(AJEntityFramework.STANDARD_FRAMEWORKS,
+                        result.get(AJEntitySubject.ID), HelperUtils.toPostgresArrayString(this.tenantIds.toArray()));
+                    jsonObject.put(AJEntityFramework.FRAMEWORKS, frameworkResults);
+                }
+                jsonResults.add(jsonObject);
+            });
+            return new ExecutionResult<>(
+                MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.SUBJECTS, jsonResults)),
+                ExecutionResult.ExecutionStatus.SUCCESSFUL);
         } else {
-            LazyList<AJEntitySubject> results =
-                AJEntitySubject.where(AJEntitySubject.SUBJECTS_GET, this.classificationType,
-                    standardFrameworkId).orderBy(HelperConstants.SEQUENCE_ID);
-            JsonArray jsonResults =
-                new JsonArray(JsonFormatterBuilder.buildSimpleJsonFormatter(false,
-                    Arrays.asList(HelperConstants.TX_RESPONSE_FIELDS)).toJson(results));
-            return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(
-                HelperConstants.SUBJECTS, jsonResults)), ExecutionResult.ExecutionStatus.SUCCESSFUL);
+            LazyList<AJEntitySubject> results = AJEntitySubject
+                .where(AJEntitySubject.SUBJECTS_GET, this.classificationType, standardFrameworkId,
+                    HelperUtils.toPostgresArrayString(this.tenantIds.toArray()))
+                .orderBy(HelperConstants.TENANT).orderBy(HelperConstants.SEQUENCE_ID);
+            JsonArray jsonResults = new JsonArray(JsonFormatterBuilder
+                .buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_RESPONSE_FIELDS)).toJson(results));
+            return new ExecutionResult<>(
+                MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.SUBJECTS, jsonResults)),
+                ExecutionResult.ExecutionStatus.SUCCESSFUL);
         }
 
     }
