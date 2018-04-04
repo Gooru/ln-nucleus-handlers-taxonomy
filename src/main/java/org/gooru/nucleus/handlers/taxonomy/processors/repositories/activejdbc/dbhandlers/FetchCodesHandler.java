@@ -2,8 +2,10 @@ package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.d
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
@@ -76,10 +78,10 @@ public class FetchCodesHandler implements DBHandler {
 
     @Override
     public ExecutionResult<MessageResponse> executeRequest() {
-        String[] codeIds = COMMA.split(codeIdList);
-        LazyList<AJEntityTaxonomyCode> results = AJEntityTaxonomyCode.where(AJEntityTaxonomyCode.TAXONOMY_CODE_GET,
-            HelperUtils.toPostgresArrayString(codeIds), HelperUtils.toPostgresArrayString(this.tenantIds.toArray()));
-        if (codeIds.length != results.size()) {
+        Set<String> codeIds = removeDuplicates(COMMA.split(codeIdList));
+        LazyList<AJEntityTaxonomyCode> results =        
+                        AJEntityTaxonomyCode.where(AJEntityTaxonomyCode.TAXONOMY_CODE_GET, HelperUtils.toPostgresArrayString(codeIds));
+        if (codeIds.size() != results.size()) {
             LOGGER.warn("id count does not match with count in database");
             return new ExecutionResult<>(
                 MessageResponseFactory.createValidationErrorResponse(
@@ -110,5 +112,13 @@ public class FetchCodesHandler implements DBHandler {
 
         String value = requestParams.getString(0);
         return (value != null && !value.isEmpty()) ? value : null;
+    }
+    
+    private Set<String> removeDuplicates(String[] codeIds) {
+    	Set<String> ids = new HashSet<>(codeIds.length);
+    	for (String code : codeIds) {
+    		ids.add(code);
+    	}
+    	return ids;
     }
 }
