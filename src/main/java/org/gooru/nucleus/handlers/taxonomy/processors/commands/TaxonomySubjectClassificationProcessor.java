@@ -5,8 +5,8 @@ import org.gooru.nucleus.handlers.taxonomy.processors.repositories.RepoBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 
 
-class TaxonomyLearnerClassificationProcessor extends AbstractCommandProcessor {
-    public TaxonomyLearnerClassificationProcessor(ProcessorContext context) {
+class TaxonomySubjectClassificationProcessor extends AbstractCommandProcessor {
+    public TaxonomySubjectClassificationProcessor(ProcessorContext context) {
         super(context);
     }
 
@@ -17,6 +17,6 @@ class TaxonomyLearnerClassificationProcessor extends AbstractCommandProcessor {
 
     @Override
     protected MessageResponse processCommand() {
-        return RepoBuilder.buildTaxonomyRepo(context).fetchLearnerClassifications();
+        return RepoBuilder.buildTaxonomyRepo(context).fetchSubjectClassifications();
     }
 }

@@ -21,6 +21,6 @@ public interface TaxonomyRepo {
     
     MessageResponse fetchStandardFrameworks();
     
-    MessageResponse fetchLearnerClassifications();
+    MessageResponse fetchSubjectClassifications();
     
 }

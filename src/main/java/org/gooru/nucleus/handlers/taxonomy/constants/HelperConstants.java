@@ -33,9 +33,10 @@ public final class HelperConstants {
   public final static String DOT = ".";
   public final static String HYPHEN = "-";
   public final static String FRAMEWORKS = "frameworks";
-  public final static String GLOBAL = "global";
-  public final static String TENANT = "tenant";
-  public final static String LEARNER_CLASSIFICATIONS = "learner_classifications";
+  public final static String IS_GLOBAL_VISIBLE = "is_global_visible";
+  public final static String FW_IDS = "fw_ids";
+  public final static String IDS = "ids";
+  public final static String SUBJECT_CLASSIFICATIONS = "subject_classifications";
   public final static String[] TX_COURSE_RESPONSE_FIELDS = {"id", "default_taxonomy_course_id", "code", "title", "description", "sequence_id"};
   public final static String[] TX_DOMAIN_RESPONSE_FIELDS = {"id", "default_taxonomy_domain_id", "code", "title", "description", "sequence_id"};
   public final static String[] TX_CODES_RESPONSE_FIELDS = {"id", "parent_taxonomy_code_id", "code", "title", "description", "code_type", "is_selectable", "sequence_id"};
