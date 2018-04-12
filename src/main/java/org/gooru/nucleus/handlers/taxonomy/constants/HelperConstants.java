@@ -42,7 +42,7 @@ public final class HelperConstants {
   public final static String[] TX_CODES_RESPONSE_FIELDS = {"id", "parent_taxonomy_code_id", "code", "title", "description", "code_type", "is_selectable", "sequence_id"};
   public final static String[] TX_CROSSWALK_CODES_RESPONSE_FIELDS = {"target_display_code", "target_title", "target_description", "target_code_type", "target_sequence_id"};
   public final static String[] TX_FRAMEWORK_RESPONSE_FIELDS = {"id", "title"};
-  public final static String[] TX_LEARNER_CLASSIFICATION_RESPONSE_FIELDS = {"id", "title", "code"};
+  public final static String[] TX_SUBJECT_CLASSIFICATION_RESPONSE_FIELDS = {"id", "title", "code"};
   
 
     private HelperConstants() {

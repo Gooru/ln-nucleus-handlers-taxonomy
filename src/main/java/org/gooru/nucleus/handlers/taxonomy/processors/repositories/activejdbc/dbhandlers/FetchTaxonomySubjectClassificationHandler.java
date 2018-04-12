@@ -80,7 +80,7 @@ class FetchTaxonomySubjectClassificationHandler implements DBHandler {
         }
 
         JsonArray jsonResults = new JsonArray(JsonFormatterBuilder
-            .buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_LEARNER_CLASSIFICATION_RESPONSE_FIELDS))
+            .buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_SUBJECT_CLASSIFICATION_RESPONSE_FIELDS))
             .toJson(results));
         return new ExecutionResult<>(
             MessageResponseFactory
