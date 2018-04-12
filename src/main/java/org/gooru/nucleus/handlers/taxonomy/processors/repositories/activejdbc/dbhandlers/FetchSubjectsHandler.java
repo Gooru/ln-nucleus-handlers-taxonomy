@@ -146,8 +146,6 @@ class FetchSubjectsHandler implements DBHandler {
                     if (taxonomyFrameworkPreferences != null) {
                         JsonObject frameworkSubjectPrefs =
                             taxonomyFrameworkPreferences.getJsonObject(result.getString(AJEntitySubject.ID));
-                        System.out.println(result.getString(AJEntitySubject.ID));
-                        System.out.println(frameworkSubjectPrefs);
                         if (frameworkSubjectPrefs != null) {
                             isGlobalVisible = frameworkSubjectPrefs.getBoolean(HelperConstants.IS_GLOBAL_VISIBLE);
                             JsonArray ids = frameworkSubjectPrefs.getJsonArray(HelperConstants.FW_IDS);
