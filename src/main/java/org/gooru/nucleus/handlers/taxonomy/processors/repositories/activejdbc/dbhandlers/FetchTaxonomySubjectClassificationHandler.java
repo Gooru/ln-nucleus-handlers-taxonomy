@@ -7,8 +7,7 @@ import java.util.ResourceBundle;
 
 import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
-import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityLearnerClassification;
-import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTenant;
+import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTaxonomySubjectClassification;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTenantSetting;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.formatter.JsonFormatterBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
@@ -22,14 +21,15 @@ import org.slf4j.LoggerFactory;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-class FetchLearnerClassificationHandler implements DBHandler {
+class FetchTaxonomySubjectClassificationHandler implements DBHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FetchLearnerClassificationHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FetchTaxonomySubjectClassificationHandler.class);
     public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
     private final ProcessorContext context;
-    private final List<String> tenantIds = new ArrayList<>();
+    private boolean isGlobalVisible = true;
+    private List<String> subjectClassificationIds = new ArrayList<>();
 
-    public FetchLearnerClassificationHandler(ProcessorContext context) {
+    public FetchTaxonomySubjectClassificationHandler(ProcessorContext context) {
         this.context = context;
     }
 
@@ -44,21 +44,23 @@ class FetchLearnerClassificationHandler implements DBHandler {
         return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public ExecutionResult<MessageResponse> validateRequest() {
-        LazyList<AJEntityTenantSetting> tenantSettings =
-            AJEntityTenantSetting.findBySQL(AJEntityTenantSetting.SELECT_TENANT_SETTING, context.tenant());
+        LazyList<AJEntityTenantSetting> tenantSettings = AJEntityTenantSetting
+            .findBySQL(AJEntityTenantSetting.SELECT_TENANT_SETTING_TX_SUB_CLASSIFIER_PREFS, context.tenant());
         AJEntityTenantSetting tenantSetting = tenantSettings.size() > 0 ? tenantSettings.get(0) : null;
-        final String tenantVisibility =
-            tenantSetting != null ? tenantSetting.getString(AJEntityTenantSetting.VALUE) : HelperConstants.GLOBAL;
-        if (tenantVisibility.contains(HelperConstants.GLOBAL)) {
-            LazyList<AJEntityTenant> tenants =
-                AJEntityTenant.findBySQL(AJEntityTenant.SELECT_GLOBAL_AND_DISCOVERABLE_TENANTS);
-            tenants.forEach(tenant -> this.tenantIds.add(tenant.getString(AJEntityTenant.ID)));
-        }
-
-        if (tenantVisibility.contains(HelperConstants.TENANT)) {
-            this.tenantIds.add(context.tenant());
+        if (tenantSetting != null) {
+            JsonObject tenantTaxonomySubjectClassificationPrefs =
+                new JsonObject(tenantSetting.getString(AJEntityTenantSetting.VALUE));
+            if (tenantTaxonomySubjectClassificationPrefs != null) {
+                this.isGlobalVisible =
+                    tenantTaxonomySubjectClassificationPrefs.getBoolean(HelperConstants.IS_GLOBAL_VISIBLE);
+                JsonArray ids = tenantTaxonomySubjectClassificationPrefs.getJsonArray(HelperConstants.IDS);
+                if (ids != null) {
+                    this.subjectClassificationIds = ids.getList();
+                }
+            }
         }
 
         return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
@@ -66,15 +68,23 @@ class FetchLearnerClassificationHandler implements DBHandler {
 
     @Override
     public ExecutionResult<MessageResponse> executeRequest() {
-        LazyList<AJEntityLearnerClassification> results =
-            AJEntityLearnerClassification.findBySQL(AJEntityLearnerClassification.SELECT_LEARNER_CLASSIFICATIONS,
-                HelperUtils.toPostgresArrayString(this.tenantIds.toArray()));
+        LazyList<AJEntityTaxonomySubjectClassification> results;
+        if (this.isGlobalVisible) {
+            results = AJEntityTaxonomySubjectClassification.findBySQL(
+                AJEntityTaxonomySubjectClassification.SELECT_TAXONOMY_SUBJECT_CLASSIFICATIONS_GOLBAL,
+                HelperUtils.toPostgresArrayString(this.subjectClassificationIds.toArray()));
+        } else {
+            results = AJEntityTaxonomySubjectClassification.findBySQL(
+                AJEntityTaxonomySubjectClassification.SELECT_TAXONOMY_SUBJECT_CLASSIFICATIONS_BY_IDS,
+                HelperUtils.toPostgresArrayString(this.subjectClassificationIds.toArray()));
+        }
+
         JsonArray jsonResults = new JsonArray(JsonFormatterBuilder
             .buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_LEARNER_CLASSIFICATION_RESPONSE_FIELDS))
             .toJson(results));
         return new ExecutionResult<>(
             MessageResponseFactory
-                .createOkayResponse(new JsonObject().put(HelperConstants.LEARNER_CLASSIFICATIONS, jsonResults)),
+                .createOkayResponse(new JsonObject().put(HelperConstants.SUBJECT_CLASSIFICATIONS, jsonResults)),
             ExecutionResult.ExecutionStatus.SUCCESSFUL);
 
     }
