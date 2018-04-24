@@ -44,4 +44,8 @@ public final class DBHandlerBuilder {
         return new FetchStandardFrameworksHandler(context);
     }
 
+    public static DBHandler buildFetchSubjectClassificationsHandler(ProcessorContext context) {
+        return new FetchTaxonomySubjectClassificationHandler(context);
+    }
+
 }
