@@ -20,4 +20,7 @@ public interface TaxonomyRepo {
     MessageResponse transformTaxonomy();
     
     MessageResponse fetchStandardFrameworks();
+    
+    MessageResponse fetchSubjectClassifications();
+    
 }
