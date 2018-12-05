@@ -63,6 +63,9 @@ class AJTaxonomyRepo implements TaxonomyRepo {
     public MessageResponse fetchSubjectClassifications() {
         return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchSubjectClassificationsHandler(context));
     }
-    
-    
+
+    @Override
+    public MessageResponse fetchSubjectById() {
+        return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchSubjectByIdHandler(context));
+    }
 }

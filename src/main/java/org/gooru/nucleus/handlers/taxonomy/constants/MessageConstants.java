@@ -24,6 +24,7 @@ public final class MessageConstants {
 
     // Operation names: Also need to be updated in corresponding handlers
     public static final String MSG_OP_TAXONOMY_SUBJECTS_GET = "taxonomy.subjects.get";
+    public static final String MSG_OP_TAXONOMY_SUBJECTS_FETCH = "taxonomy.subjects.fetch";
     public static final String MSG_OP_TAXONOMY_COURSES_GET = "taxonomy.courses.get";
     public static final String MSG_OP_TAXONOMY_DOMAINS_GET = "taxonomy.domains.get";
     public static final String MSG_OP_TAXONOMY_DOMAIN_CODES_GET = "taxonomy.domain.codes.get";

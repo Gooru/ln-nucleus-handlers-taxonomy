@@ -35,6 +35,12 @@ public enum CommandProcessorBuilder {
             return new TaxonomySubjectsProcessor(context);
         }
     },
+    TAXONOMY_SUBJECT_FETCH(MessageConstants.MSG_OP_TAXONOMY_SUBJECTS_FETCH) {
+        @Override
+        public Processor build(ProcessorContext context) {
+            return new TaxonomySubjectFetchProcessor(context);
+        }
+    },
     TAXONOMY_COURSES_GET(MessageConstants.MSG_OP_TAXONOMY_COURSES_GET) {
         @Override
         public Processor build(ProcessorContext context) {

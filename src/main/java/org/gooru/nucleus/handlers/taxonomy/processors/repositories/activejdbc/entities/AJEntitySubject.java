@@ -1,5 +1,6 @@
 package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities;
 
+import io.vertx.core.json.JsonObject;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 
@@ -16,5 +17,15 @@ public class AJEntitySubject extends Model {
         + "and  is_visible = true";
     public final static String GUF_SUBJECTS_GET = "taxonomy_subject_classification_id = ? AND standard_framework_id is null AND "
         + "default_taxonomy_subject_id is null and  is_visible = true";
-    public final static String SELECT_TX_SUBJECT_BY_ID = "SELECT id from taxonomy_subject from id = ?";
+    public final static String SELECT_TX_SUBJECT_BY_ID = "id = ?";
+
+    public JsonObject asJson() {
+        JsonObject result = new JsonObject();
+        result.put(ID, this.getString(ID));
+        result.put(TITLE, this.getString(TITLE));
+        result.put(STANDARD_FRAMEWORK_ID, this.getString(STANDARD_FRAMEWORK_ID));
+        result.put(CODE, this.getString(CODE));
+        result.put(DESCRIPTION, this.getString(DESCRIPTION));
+        return result;
+    }
 }
