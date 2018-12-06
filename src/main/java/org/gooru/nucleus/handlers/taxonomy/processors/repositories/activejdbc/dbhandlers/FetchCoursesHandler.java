@@ -2,10 +2,8 @@ package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.d
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-
 import java.util.Arrays;
 import java.util.ResourceBundle;
-
 import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTaxonomyCourse;
@@ -31,12 +29,15 @@ class FetchCoursesHandler implements DBHandler {
   public ExecutionResult<MessageResponse> checkSanity() {
     if (context.userId() == null || context.userId().isEmpty()) {
       LOGGER.warn("Invalid user");
-      return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(), ExecutionResult.ExecutionStatus.FAILED);
+      return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(),
+          ExecutionResult.ExecutionStatus.FAILED);
     }
     // There should be an  standard framework and subject id present
-    if (context.subjectId() == null || context.subjectId().isEmpty() || context.standardFrameworkId() == null || context.standardFrameworkId().isEmpty()) {
+    if (context.subjectId() == null || context.subjectId().isEmpty()
+        || context.standardFrameworkId() == null || context.standardFrameworkId().isEmpty()) {
       LOGGER.warn("Missing standard framework and subject id");
-      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(), ExecutionResult.ExecutionStatus.FAILED);
+      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(),
+          ExecutionResult.ExecutionStatus.FAILED);
     }
     return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
   }
@@ -49,11 +50,14 @@ class FetchCoursesHandler implements DBHandler {
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
     LazyList<AJEntityTaxonomyCourse> results =
-            AJEntityTaxonomyCourse.where(AJEntityTaxonomyCourse.COURSES_GET, context.subjectId(), context.standardFrameworkId())
-                    .orderBy(HelperConstants.SEQUENCE_ID);
-    return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.COURSES, new JsonArray(
-            JsonFormatterBuilder.buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_COURSE_RESPONSE_FIELDS)).toJson(results)))),
-            ExecutionResult.ExecutionStatus.SUCCESSFUL);
+        AJEntityTaxonomyCourse.where(AJEntityTaxonomyCourse.COURSES_GET, context.subjectId(),
+            context.standardFrameworkId())
+            .orderBy(HelperConstants.SEQUENCE_ID);
+    return new ExecutionResult<>(MessageResponseFactory
+        .createOkayResponse(new JsonObject().put(HelperConstants.COURSES, new JsonArray(
+            JsonFormatterBuilder.buildSimpleJsonFormatter(false,
+                Arrays.asList(HelperConstants.TX_COURSE_RESPONSE_FIELDS)).toJson(results)))),
+        ExecutionResult.ExecutionStatus.SUCCESSFUL);
   }
 
   @Override

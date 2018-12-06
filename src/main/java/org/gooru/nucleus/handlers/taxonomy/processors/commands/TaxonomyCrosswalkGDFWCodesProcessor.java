@@ -5,17 +5,18 @@ import org.gooru.nucleus.handlers.taxonomy.processors.repositories.RepoBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 
 class TaxonomyCrosswalkGDFWCodesProcessor extends AbstractCommandProcessor {
-    public TaxonomyCrosswalkGDFWCodesProcessor(ProcessorContext context) {
-        super(context);
-    }
 
-    @Override
-    protected void setDeprecatedVersions() {
+  public TaxonomyCrosswalkGDFWCodesProcessor(ProcessorContext context) {
+    super(context);
+  }
 
-    }
+  @Override
+  protected void setDeprecatedVersions() {
 
-    @Override
-    protected MessageResponse processCommand() {
-        return RepoBuilder.buildTaxonomyRepo(context).fetchCrosswalkGDFWCodes();
-    }
+  }
+
+  @Override
+  protected MessageResponse processCommand() {
+    return RepoBuilder.buildTaxonomyRepo(context).fetchCrosswalkGDFWCodes();
+  }
 }

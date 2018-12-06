@@ -4,17 +4,17 @@ import java.util.List;
 
 public final class JsonFormatterBuilder {
 
-    private JsonFormatterBuilder() {
-        throw new AssertionError();
-    }
+  private JsonFormatterBuilder() {
+    throw new AssertionError();
+  }
 
-    public static JsonFormatter buildSimpleJsonFormatter(boolean pretty, List<String> attributes) {
+  public static JsonFormatter buildSimpleJsonFormatter(boolean pretty, List<String> attributes) {
 
-        return new SimpleJsonFormatter(pretty, attributes);
-    }
+    return new SimpleJsonFormatter(pretty, attributes);
+  }
 
-    public static JsonFormatter buildSimpleJsonFormatter(boolean pretty) {
+  public static JsonFormatter buildSimpleJsonFormatter(boolean pretty) {
 
-        return new SimpleJsonFormatter(pretty, null);
-    }
+    return new SimpleJsonFormatter(pretty, null);
+  }
 }

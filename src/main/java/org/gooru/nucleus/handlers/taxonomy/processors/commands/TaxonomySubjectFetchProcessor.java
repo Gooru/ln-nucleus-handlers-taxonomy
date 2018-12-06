@@ -5,11 +5,11 @@ import org.gooru.nucleus.handlers.taxonomy.processors.repositories.RepoBuilder;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 
 /**
- * @author ashish on 2/1/17.
+ * @author ashish
  */
-class TaxonomyDomainsProcessor extends AbstractCommandProcessor {
+class TaxonomySubjectFetchProcessor extends AbstractCommandProcessor {
 
-  public TaxonomyDomainsProcessor(ProcessorContext context) {
+  public TaxonomySubjectFetchProcessor(ProcessorContext context) {
     super(context);
   }
 
@@ -20,6 +20,6 @@ class TaxonomyDomainsProcessor extends AbstractCommandProcessor {
 
   @Override
   protected MessageResponse processCommand() {
-    return RepoBuilder.buildTaxonomyRepo(context).fetchDomains();
+    return RepoBuilder.buildTaxonomyRepo(context).fetchSubjectById();
   }
 }

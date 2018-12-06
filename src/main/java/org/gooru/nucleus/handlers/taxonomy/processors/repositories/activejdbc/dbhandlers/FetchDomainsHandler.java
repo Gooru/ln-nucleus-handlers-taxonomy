@@ -2,10 +2,8 @@ package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.d
 
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-
 import java.util.Arrays;
 import java.util.ResourceBundle;
-
 import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
 import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityTaxonomyDomain;
@@ -31,14 +29,18 @@ class FetchDomainsHandler implements DBHandler {
   public ExecutionResult<MessageResponse> checkSanity() {
     if (context.userId() == null || context.userId().isEmpty()) {
       LOGGER.warn("Invalid user");
-      return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(), ExecutionResult.ExecutionStatus.FAILED);
+      return new ExecutionResult<>(MessageResponseFactory.createForbiddenResponse(),
+          ExecutionResult.ExecutionStatus.FAILED);
     }
     // There should be an standardFramework, subject and course id present
-    if (context.subjectId() == null || context.subjectId().isEmpty() || context.courseId() == null || context.courseId().isEmpty() || context.standardFrameworkId() == null || context.standardFrameworkId().isEmpty()) {
+    if (context.subjectId() == null || context.subjectId().isEmpty() || context.courseId() == null
+        || context.courseId().isEmpty() || context.standardFrameworkId() == null || context
+        .standardFrameworkId().isEmpty()) {
       LOGGER.warn("Missing /standard-framework-id/subject/course id");
-      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(), ExecutionResult.ExecutionStatus.FAILED);
+      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(),
+          ExecutionResult.ExecutionStatus.FAILED);
     }
-    
+
     return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
   }
 
@@ -50,11 +52,14 @@ class FetchDomainsHandler implements DBHandler {
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
     LazyList<AJEntityTaxonomyDomain> results =
-            AJEntityTaxonomyDomain.where(AJEntityTaxonomyDomain.DOMAINS_GET, context.courseId(), context.standardFrameworkId())
-                    .orderBy(HelperConstants.SEQUENCE_ID);
-    return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(new JsonObject().put(HelperConstants.DOMAINS, new JsonArray(
-            JsonFormatterBuilder.buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_DOMAIN_RESPONSE_FIELDS)).toJson(results)))),
-            ExecutionResult.ExecutionStatus.SUCCESSFUL);
+        AJEntityTaxonomyDomain.where(AJEntityTaxonomyDomain.DOMAINS_GET, context.courseId(),
+            context.standardFrameworkId())
+            .orderBy(HelperConstants.SEQUENCE_ID);
+    return new ExecutionResult<>(MessageResponseFactory
+        .createOkayResponse(new JsonObject().put(HelperConstants.DOMAINS, new JsonArray(
+            JsonFormatterBuilder.buildSimpleJsonFormatter(false,
+                Arrays.asList(HelperConstants.TX_DOMAIN_RESPONSE_FIELDS)).toJson(results)))),
+        ExecutionResult.ExecutionStatus.SUCCESSFUL);
   }
 
   @Override
