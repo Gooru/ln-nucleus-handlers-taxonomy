@@ -4,11 +4,12 @@ import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 
 public interface DBHandler {
-    ExecutionResult<MessageResponse> checkSanity();
 
-    ExecutionResult<MessageResponse> validateRequest();
+  ExecutionResult<MessageResponse> checkSanity();
 
-    ExecutionResult<MessageResponse> executeRequest();
+  ExecutionResult<MessageResponse> validateRequest();
 
-    boolean handlerReadOnly();
+  ExecutionResult<MessageResponse> executeRequest();
+
+  boolean handlerReadOnly();
 }

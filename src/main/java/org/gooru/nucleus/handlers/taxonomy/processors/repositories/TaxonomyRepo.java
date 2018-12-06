@@ -3,25 +3,26 @@ package org.gooru.nucleus.handlers.taxonomy.processors.repositories;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 
 public interface TaxonomyRepo {
-    MessageResponse fetchSubjects();
 
-    MessageResponse fetchCourses();
+  MessageResponse fetchSubjects();
 
-    MessageResponse fetchDomains();
+  MessageResponse fetchCourses();
 
-    MessageResponse fetchDomainStandards();
+  MessageResponse fetchDomains();
 
-    MessageResponse fetchCodes();
+  MessageResponse fetchDomainStandards();
 
-    MessageResponse fetchCrosswalkGDFWCodes();
+  MessageResponse fetchCodes();
 
-    MessageResponse fetchCrosswalkFWCodes();
-    
-    MessageResponse transformTaxonomy();
-    
-    MessageResponse fetchStandardFrameworks();
-    
-    MessageResponse fetchSubjectClassifications();
+  MessageResponse fetchCrosswalkGDFWCodes();
 
-    MessageResponse fetchSubjectById();
+  MessageResponse fetchCrosswalkFWCodes();
+
+  MessageResponse transformTaxonomy();
+
+  MessageResponse fetchStandardFrameworks();
+
+  MessageResponse fetchSubjectClassifications();
+
+  MessageResponse fetchSubjectById();
 }
