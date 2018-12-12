@@ -6,17 +6,18 @@ import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 
 
 class TaxonomySubjectClassificationProcessor extends AbstractCommandProcessor {
-    public TaxonomySubjectClassificationProcessor(ProcessorContext context) {
-        super(context);
-    }
 
-    @Override
-    protected void setDeprecatedVersions() {
+  public TaxonomySubjectClassificationProcessor(ProcessorContext context) {
+    super(context);
+  }
 
-    }
+  @Override
+  protected void setDeprecatedVersions() {
 
-    @Override
-    protected MessageResponse processCommand() {
-        return RepoBuilder.buildTaxonomyRepo(context).fetchSubjectClassifications();
-    }
+  }
+
+  @Override
+  protected MessageResponse processCommand() {
+    return RepoBuilder.buildTaxonomyRepo(context).fetchSubjectClassifications();
+  }
 }

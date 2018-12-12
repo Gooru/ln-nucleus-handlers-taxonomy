@@ -8,17 +8,18 @@ import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
  * @author ashish on 2/1/17.
  */
 class TaxonomyCodesProcessor extends AbstractCommandProcessor {
-    public TaxonomyCodesProcessor(ProcessorContext context) {
-        super(context);
-    }
 
-    @Override
-    protected void setDeprecatedVersions() {
+  public TaxonomyCodesProcessor(ProcessorContext context) {
+    super(context);
+  }
 
-    }
+  @Override
+  protected void setDeprecatedVersions() {
 
-    @Override
-    protected MessageResponse processCommand() {
-        return RepoBuilder.buildTaxonomyRepo(context).fetchCodes();
-    }
+  }
+
+  @Override
+  protected MessageResponse processCommand() {
+    return RepoBuilder.buildTaxonomyRepo(context).fetchCodes();
+  }
 }

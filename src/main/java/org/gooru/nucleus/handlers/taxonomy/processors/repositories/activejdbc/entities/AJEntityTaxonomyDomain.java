@@ -5,5 +5,6 @@ import org.javalite.activejdbc.annotations.Table;
 
 @Table("taxonomy_domain")
 public class AJEntityTaxonomyDomain extends Model {
+
   public final static String DOMAINS_GET = "taxonomy_course_id = ? and standard_framework_id = ?";
 }
