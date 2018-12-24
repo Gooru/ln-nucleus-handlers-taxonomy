@@ -93,6 +93,14 @@ public enum CommandProcessorBuilder {
     public Processor build(ProcessorContext context) {
       return new TaxonomySubjectClassificationProcessor(context);
     }
+  },
+  TAXONOMY_FRAMEWORKS_SUBJECT_LIST(MessageConstants.MSG_OP_TAXONOMY_FRAMEWORKS_SUBJECTS_LIST) {
+
+    @Override
+    public Processor build(ProcessorContext context) {
+      return new TaxonomyFrameworksSubjectsListProcessor(context);
+    }
+    
   };
 
   private String name;
