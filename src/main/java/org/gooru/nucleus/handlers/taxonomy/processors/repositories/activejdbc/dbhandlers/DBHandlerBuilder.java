@@ -51,4 +51,9 @@ public final class DBHandlerBuilder {
   public static DBHandler buildFetchSubjectByIdHandler(ProcessorContext context) {
     return new FetchSubjectByIdnHandler(context);
   }
+
+  public static DBHandler buildListTaxonomyFrameworksSubjectsHandler(ProcessorContext context) {
+    return new ListTaxonomyFrameworksSubjectsHandler(context);
+  }
+
 }
