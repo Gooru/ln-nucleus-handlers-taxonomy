@@ -25,4 +25,6 @@ public interface TaxonomyRepo {
   MessageResponse fetchSubjectClassifications();
 
   MessageResponse fetchSubjectById();
+
+  MessageResponse listTaxonomyFrameworksSubjects();
 }
