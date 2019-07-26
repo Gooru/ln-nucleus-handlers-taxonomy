@@ -53,7 +53,7 @@ class FetchSubjectByIdnHandler implements DBHandler {
     if (subjects == null || subjects.isEmpty()) {
       return new ExecutionResult<>(
           MessageResponseFactory.createNotFoundResponse(RESOURCE_BUNDLE.getString("not.found")),
-          ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
+          ExecutionResult.ExecutionStatus.FAILED);
     }
     subject = subjects.get(0);
     return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
