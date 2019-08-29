@@ -101,7 +101,14 @@ public enum CommandProcessorBuilder {
       return new TaxonomyFrameworksSubjectsListProcessor(context);
     }
     
-  };
+  },
+  TAXONOMY_FRAMEWORK_SUBJECT_COMPETENCY_CROSSWALK(MessageConstants.MSG_OP_TAXONOMY_FRAMEWORK_SUBJECT_COMPETENCY_CROSSWALK) {
+    @Override
+    public Processor build(ProcessorContext context) {
+      return new TaxonomyFrameworkSubjectCompetencyCrosswalkProcessor(context);
+    }
+  }
+;
 
   private String name;
 

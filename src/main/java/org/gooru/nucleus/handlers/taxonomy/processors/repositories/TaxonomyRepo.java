@@ -27,4 +27,6 @@ public interface TaxonomyRepo {
   MessageResponse fetchSubjectById();
 
   MessageResponse listTaxonomyFrameworksSubjects();
+
+  MessageResponse fetchTaxonomySubjectCompetencyCrosswalk();
 }

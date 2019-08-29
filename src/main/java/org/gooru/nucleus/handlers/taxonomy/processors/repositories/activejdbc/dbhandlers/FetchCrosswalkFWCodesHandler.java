@@ -1,7 +1,5 @@
 package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.dbhandlers;
 
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,10 +14,12 @@ import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponseF
 import org.gooru.nucleus.handlers.taxonomy.processors.utils.HelperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 class FetchCrosswalkFWCodesHandler implements DBHandler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(FetchDomainCodesHandler.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(FetchCrosswalkFWCodesHandler.class);
   public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
   private final ProcessorContext context;
   private JsonArray codes;
