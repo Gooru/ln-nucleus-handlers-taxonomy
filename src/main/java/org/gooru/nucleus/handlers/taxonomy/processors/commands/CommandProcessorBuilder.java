@@ -102,10 +102,10 @@ public enum CommandProcessorBuilder {
     }
     
   },
-  TAXONOMY_FRAMEWORK_SUBJECT_COMPETENCY_CROSSWALK(MessageConstants.MSG_OP_TAXONOMY_FRAMEWORK_SUBJECT_COMPETENCY_CROSSWALK) {
+  GUT_TO_FW_TRANSFORM_FETCH(MessageConstants.MSG_OP_TAXONOMY_FRAMEWORK_SUBJECT_COMPETENCY_CROSSWALK) {
     @Override
     public Processor build(ProcessorContext context) {
-      return new TaxonomyFrameworkSubjectCompetencyCrosswalkProcessor(context);
+      return new GutToFrameworkTransformationProcessor(context);
     }
   }
 ;

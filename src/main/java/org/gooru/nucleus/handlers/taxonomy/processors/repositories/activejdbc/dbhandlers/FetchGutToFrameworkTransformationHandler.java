@@ -3,7 +3,7 @@ package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.d
 import java.util.ResourceBundle;
 import org.gooru.nucleus.handlers.taxonomy.constants.HelperConstants;
 import org.gooru.nucleus.handlers.taxonomy.processors.ProcessorContext;
-import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityFrameworkSubjectCompetencyCrosswalk;
+import org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.entities.AJEntityGutToFrameworkTransformation;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.ExecutionResult;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponseFactory;
@@ -12,15 +12,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.vertx.core.json.JsonObject;
 
-class FetchTaxonomySubjectCompetencyCrosswalkHandler implements DBHandler {
+class FetchGutToFrameworkTransformationHandler implements DBHandler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(FetchTaxonomySubjectCompetencyCrosswalkHandler.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(FetchGutToFrameworkTransformationHandler.class);
   public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
   private final ProcessorContext context;
   private String subjectCode;
   private String frameworkId;
 
-  public FetchTaxonomySubjectCompetencyCrosswalkHandler(ProcessorContext context) {
+  public FetchGutToFrameworkTransformationHandler(ProcessorContext context) {
     this.context = context;
   }
 
@@ -33,14 +33,14 @@ class FetchTaxonomySubjectCompetencyCrosswalkHandler implements DBHandler {
           ExecutionResult.ExecutionStatus.FAILED);
     }
     this.frameworkId = context.standardFrameworkId();
-    if (context.standardFrameworkId() == null || context.standardFrameworkId().isEmpty()) {
+    if (this.frameworkId == null || this.frameworkId.isEmpty()) {
       LOGGER.warn("Framework id is missing");
       return new ExecutionResult<>(
           MessageResponseFactory.createInvalidRequestResponse("framework id is missing"),
           ExecutionResult.ExecutionStatus.FAILED);
     }
     this.subjectCode = context.subjectId();
-    if (context.subjectId() == null || context.subjectId().isEmpty()) {
+    if (this.subjectCode == null || this.subjectCode.isEmpty()) {
       LOGGER.warn("Subject code is missing");
       return new ExecutionResult<>(
           MessageResponseFactory.createInvalidRequestResponse("subject code is missing"),
@@ -56,15 +56,15 @@ class FetchTaxonomySubjectCompetencyCrosswalkHandler implements DBHandler {
 
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
-    LazyList<AJEntityFrameworkSubjectCompetencyCrosswalk> crosswalkModels = AJEntityFrameworkSubjectCompetencyCrosswalk
-          .where(AJEntityFrameworkSubjectCompetencyCrosswalk.FETCH_FRAMEWORK_SUBJECT_COMPETENCY_CROSSWALK, frameworkId, subjectCode);
+    LazyList<AJEntityGutToFrameworkTransformation> crosswalkModels = AJEntityGutToFrameworkTransformation
+          .where(AJEntityGutToFrameworkTransformation.FETCH_GUT_TO_FRAMEWORK_TRANSFORMATION, frameworkId, subjectCode);
 
     if (crosswalkModels == null || crosswalkModels.isEmpty()) {
       return new ExecutionResult<>(
           MessageResponseFactory.createNotFoundResponse(RESOURCE_BUNDLE.getString("not.found")),
           ExecutionResult.ExecutionStatus.FAILED);
     }
-    String crosswalk = crosswalkModels.get(0).getString(HelperConstants.CROSSWALK);
+    String crosswalk = crosswalkModels.get(0).getString(HelperConstants.TRANSFORMED_DATA);
     JsonObject resultSet = (crosswalk != null) ? new JsonObject(crosswalk) : new JsonObject();
     return new ExecutionResult<>(MessageResponseFactory.createOkayResponse(resultSet),
         ExecutionResult.ExecutionStatus.SUCCESSFUL);

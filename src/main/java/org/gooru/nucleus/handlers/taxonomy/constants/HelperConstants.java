@@ -38,7 +38,7 @@ public final class HelperConstants {
   public final static String FW_IDS = "fw_ids";
   public final static String IDS = "ids";
   public final static String SUBJECT_CLASSIFICATIONS = "subject_classifications";
-  public final static String CROSSWALK = "crosswalk_data";
+  public final static String TRANSFORMED_DATA = "transformed_data";
   public final static String[] TX_COURSE_RESPONSE_FIELDS = {"id", "default_taxonomy_course_id",
       "code", "title", "description", "sequence_id"};
   public final static String[] TX_DOMAIN_RESPONSE_FIELDS = {"id", "default_taxonomy_domain_id",

@@ -56,8 +56,8 @@ public final class DBHandlerBuilder {
     return new ListTaxonomyFrameworksSubjectsHandler(context);
   }
   
-  public static DBHandler buildFetchTaxonomySubjectCompetencyCrosswalkHandler(ProcessorContext context) {
-    return new FetchTaxonomySubjectCompetencyCrosswalkHandler(context);
+  public static DBHandler buildFetchGutToFrameworkTransformationHandler(ProcessorContext context) {
+    return new FetchGutToFrameworkTransformationHandler(context);
   }
 
 }

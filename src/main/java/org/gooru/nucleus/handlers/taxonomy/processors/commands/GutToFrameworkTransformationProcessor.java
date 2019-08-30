@@ -8,9 +8,9 @@ import org.gooru.nucleus.handlers.taxonomy.processors.responses.MessageResponse;
 /**
  * @author renuka
  */
-public class TaxonomyFrameworkSubjectCompetencyCrosswalkProcessor extends AbstractCommandProcessor {
+public class GutToFrameworkTransformationProcessor extends AbstractCommandProcessor {
 
-  public TaxonomyFrameworkSubjectCompetencyCrosswalkProcessor(ProcessorContext context) {
+  public GutToFrameworkTransformationProcessor(ProcessorContext context) {
     super(context);
   }
 
@@ -21,7 +21,7 @@ public class TaxonomyFrameworkSubjectCompetencyCrosswalkProcessor extends Abstra
 
   @Override
   protected MessageResponse processCommand() {
-    return RepoBuilder.buildTaxonomyRepo(context).fetchTaxonomySubjectCompetencyCrosswalk();
+    return RepoBuilder.buildTaxonomyRepo(context).fetchGutToFrameworkTransformation();
   }
 
 }

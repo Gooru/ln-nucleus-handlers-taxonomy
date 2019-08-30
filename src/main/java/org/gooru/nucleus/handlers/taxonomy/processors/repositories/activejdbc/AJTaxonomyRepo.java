@@ -86,7 +86,7 @@ class AJTaxonomyRepo implements TaxonomyRepo {
   }
   
   @Override
-  public MessageResponse fetchTaxonomySubjectCompetencyCrosswalk() {
-    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchTaxonomySubjectCompetencyCrosswalkHandler(context));
+  public MessageResponse fetchGutToFrameworkTransformation() {
+    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchGutToFrameworkTransformationHandler(context));
   }
 }
