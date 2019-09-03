@@ -84,4 +84,9 @@ class AJTaxonomyRepo implements TaxonomyRepo {
   public MessageResponse listTaxonomyFrameworksSubjects() {
     return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildListTaxonomyFrameworksSubjectsHandler(context));
   }
+  
+  @Override
+  public MessageResponse fetchGutToFrameworkTransformation() {
+    return TransactionExecutor.executeTransaction(DBHandlerBuilder.buildFetchGutToFrameworkTransformationHandler(context));
+  }
 }
