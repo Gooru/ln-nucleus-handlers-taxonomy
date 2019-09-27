@@ -18,7 +18,8 @@ import io.vertx.core.json.JsonObject;
 
 class FetchCrosswalkGDFWCodesHandler implements DBHandler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(FetchCrosswalkGDFWCodesHandler.class);
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(FetchCrosswalkGDFWCodesHandler.class);
   public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
   private final ProcessorContext context;
   private JsonArray codes;
@@ -48,10 +49,8 @@ class FetchCrosswalkGDFWCodesHandler implements DBHandler {
     this.codes = context.request().getJsonArray(HelperConstants.CODES);
     if (this.codes == null || codes.isEmpty()) {
       LOGGER.warn("input internal / display codes missing");
-      return new ExecutionResult<>(
-          MessageResponseFactory
-              .createInvalidRequestResponse("input internal / display code missing"),
-          ExecutionResult.ExecutionStatus.FAILED);
+      return new ExecutionResult<>(MessageResponseFactory.createInvalidRequestResponse(
+          "input internal / display code missing"), ExecutionResult.ExecutionStatus.FAILED);
     }
     this.targetFrameworkId = context.request().getString(HelperConstants.TARGET_FRAMEWORK_ID);
     if (this.targetFrameworkId == null || this.targetFrameworkId.isEmpty()) {
@@ -80,20 +79,21 @@ class FetchCrosswalkGDFWCodesHandler implements DBHandler {
     List<AJEntityTaxonomyCodeMapping> codes = null;
     String inputCodes = HelperUtils.toPostgresArrayString(this.codes.getList().toArray());
     if (this.isInternalCode == null || !this.isInternalCode) {
-      codes = AJEntityTaxonomyCodeMapping
-          .where(AJEntityTaxonomyCodeMapping.DISPLAY_SOURCE_CODES_TO_TARGET_CODES,
-              inputCodes, targetFrameworkId);
+      codes = AJEntityTaxonomyCodeMapping.where(
+          AJEntityTaxonomyCodeMapping.DISPLAY_SOURCE_CODES_TO_TARGET_CODES, inputCodes,
+          targetFrameworkId);
     } else {
-      codes = AJEntityTaxonomyCodeMapping
-          .where(AJEntityTaxonomyCodeMapping.INTERNAL_SOURCE_CODES_TO_TARGET_CODES,
-              inputCodes, targetFrameworkId);
+      codes = AJEntityTaxonomyCodeMapping.where(
+          AJEntityTaxonomyCodeMapping.INTERNAL_SOURCE_CODES_TO_TARGET_CODES, inputCodes,
+          targetFrameworkId);
     }
     if (codes != null && codes.size() > 0) {
       codes.forEach(code -> {
-        results.put(code.getString(key), new JsonObject(JsonFormatterBuilder
-            .buildSimpleJsonFormatter(false,
-                Arrays.asList(HelperConstants.TX_CROSSWALK_CODES_RESPONSE_FIELDS))
-            .toJson(code)));
+        results.put(code.getString(key),
+            new JsonObject(JsonFormatterBuilder
+                .buildSimpleJsonFormatter(false,
+                    Arrays.asList(HelperConstants.TX_CROSSWALK_CODES_RESPONSE_FIELDS))
+                .toJson(code)));
       });
     }
     mappedResults.put(HelperConstants.MAPPED, results.copy());
