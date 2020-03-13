@@ -16,9 +16,12 @@ public class AJEntitySubject extends Model {
   public final static String SUBJECTS_GET =
       "taxonomy_subject_classification_id = ? and standard_framework_id = ? "
           + "and  is_visible = true";
-  public final static String GUF_SUBJECTS_GET =
+  public final static String GUT_SUBJECTS_GET_GLOBALS =
       "taxonomy_subject_classification_id = ? AND standard_framework_id is null AND "
-          + "default_taxonomy_subject_id is null and  is_visible = true";
+          + "default_taxonomy_subject_id is null and  is_visible = true AND (tenant_visibility = true OR id = ANY(?::varchar[]))";
+  public final static String GUT_SUBJECTS_GET_BY_IDS =
+      "taxonomy_subject_classification_id = ? AND standard_framework_id is null AND "
+          + "default_taxonomy_subject_id is null and  is_visible = true AND id = ANY(?::varchar[])";
   public final static String SELECT_TX_SUBJECT_BY_ID = "id = ?";
 
   public JsonObject asJson() {

@@ -1,7 +1,5 @@
 package org.gooru.nucleus.handlers.taxonomy.processors.repositories.activejdbc.dbhandlers;
 
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +21,8 @@ import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 class FetchSubjectsHandler implements DBHandler {
 
@@ -32,6 +32,7 @@ class FetchSubjectsHandler implements DBHandler {
   private String classificationType = null;
   private String standardFrameworkId = null;
   private JsonObject taxonomyFrameworkPreferences = null;
+  private JsonObject taxonomySubjectPreferences = null;
 
   public FetchSubjectsHandler(ProcessorContext context) {
     this.context = context;
@@ -70,16 +71,16 @@ class FetchSubjectsHandler implements DBHandler {
     AJEntityTaxonomySubjectClassification taxonomySubjectClassification =
         taxonomySubjectClassifications.size() > 0 ? taxonomySubjectClassifications.get(0) : null;
     if (taxonomySubjectClassification == null) {
-      LOGGER
-          .warn("Taxonomy Subject Classification {} not found, aborting", this.classificationType);
+      LOGGER.warn("Taxonomy Subject Classification {} not found, aborting",
+          this.classificationType);
       return new ExecutionResult<>(
           MessageResponseFactory.createNotFoundResponse(RESOURCE_BUNDLE.getString("not.found")),
           ExecutionStatus.FAILED);
 
     }
-    LazyList<AJEntityTenantSetting> taxonomySubjectClassificationTenantSettings = AJEntityTenantSetting
-        .findBySQL(AJEntityTenantSetting.SELECT_TENANT_SETTING_TX_SUB_CLASSIFIER_PREFS,
-            context.tenant());
+    LazyList<AJEntityTenantSetting> taxonomySubjectClassificationTenantSettings =
+        AJEntityTenantSetting.findBySQL(
+            AJEntityTenantSetting.SELECT_TENANT_SETTING_TX_SUB_CLASSIFIER_PREFS, context.tenant());
     AJEntityTenantSetting taxonomySubjectClassificationTenantSetting =
         taxonomySubjectClassificationTenantSettings.size() > 0
             ? taxonomySubjectClassificationTenantSettings.get(0)
@@ -87,30 +88,26 @@ class FetchSubjectsHandler implements DBHandler {
     boolean isGlobalVisible = true;
     JsonArray ids = null;
     if (taxonomySubjectClassificationTenantSetting != null) {
-      JsonObject tenantTaxonomySubjectClassificationPrefs =
-          new JsonObject(
-              taxonomySubjectClassificationTenantSetting.getString(AJEntityTenantSetting.VALUE));
-      isGlobalVisible = tenantTaxonomySubjectClassificationPrefs
-          .getBoolean(HelperConstants.IS_GLOBAL_VISIBLE);
+      JsonObject tenantTaxonomySubjectClassificationPrefs = new JsonObject(
+          taxonomySubjectClassificationTenantSetting.getString(AJEntityTenantSetting.VALUE));
+      isGlobalVisible =
+          tenantTaxonomySubjectClassificationPrefs.getBoolean(HelperConstants.IS_GLOBAL_VISIBLE);
       ids = tenantTaxonomySubjectClassificationPrefs.getJsonArray(HelperConstants.IDS);
     }
-    boolean tenantVisiblity =
-        taxonomySubjectClassification
-            .getBoolean(AJEntityTaxonomySubjectClassification.TENANT_VISIBILITY);
-    if (!(isGlobalVisible && tenantVisiblity) && !(ids != null && ids
-        .contains(this.classificationType))) {
+    boolean tenantVisiblity = taxonomySubjectClassification
+        .getBoolean(AJEntityTaxonomySubjectClassification.TENANT_VISIBILITY);
+    if (!(isGlobalVisible && tenantVisiblity)
+        && !(ids != null && ids.contains(this.classificationType))) {
       LOGGER.warn("Taxonomy Subject Classification {} is not visible for this tenant {}",
-          this.classificationType,
-          context.tenant());
+          this.classificationType, context.tenant());
       return new ExecutionResult<>(
           MessageResponseFactory.createForbiddenResponse(RESOURCE_BUNDLE.getString("not.allowed")),
           ExecutionResult.ExecutionStatus.FAILED);
     }
 
     if (standardFrameworkId != null) {
-      LazyList<AJEntityFramework> frameworks =
-          AJEntityFramework
-              .findBySQL(AJEntityFramework.STANDARD_FRAMEWORK, this.standardFrameworkId);
+      LazyList<AJEntityFramework> frameworks = AJEntityFramework
+          .findBySQL(AJEntityFramework.STANDARD_FRAMEWORK, this.standardFrameworkId);
       AJEntityFramework framework = frameworks.size() > 0 ? frameworks.get(0) : null;
       if (framework == null) {
         LOGGER.warn("framework {} not found, aborting", this.standardFrameworkId);
@@ -120,14 +117,22 @@ class FetchSubjectsHandler implements DBHandler {
       }
     }
 
-    LazyList<AJEntityTenantSetting> taxonomyFrameworkTenantSettings =
-        AJEntityTenantSetting
-            .findBySQL(AJEntityTenantSetting.SELECT_TENANT_SETTING_TX_FW_PREFS, context.tenant());
+    LazyList<AJEntityTenantSetting> taxonomyFrameworkTenantSettings = AJEntityTenantSetting
+        .findBySQL(AJEntityTenantSetting.SELECT_TENANT_SETTING_TX_FW_PREFS, context.tenant());
     AJEntityTenantSetting taxonomyFrameworkTenantSetting =
         taxonomyFrameworkTenantSettings.size() > 0 ? taxonomyFrameworkTenantSettings.get(0) : null;
     if (taxonomyFrameworkTenantSetting != null) {
       taxonomyFrameworkPreferences =
           new JsonObject(taxonomyFrameworkTenantSetting.getString(AJEntityTenantSetting.VALUE));
+    }
+
+    LazyList<AJEntityTenantSetting> taxonomySubjectTenantSettings = AJEntityTenantSetting
+        .findBySQL(AJEntityTenantSetting.SELECT_TENANT_SETTING_TX_SUB_PREFS, context.tenant());
+    AJEntityTenantSetting taxonomySubjectTenantSetting =
+        taxonomySubjectTenantSettings.size() > 0 ? taxonomySubjectTenantSettings.get(0) : null;
+    if (taxonomySubjectTenantSetting != null) {
+      taxonomySubjectPreferences =
+          new JsonObject(taxonomySubjectTenantSetting.getString(AJEntityTenantSetting.VALUE));
     }
 
     return new ExecutionResult<>(null, ExecutionResult.ExecutionStatus.CONTINUE_PROCESSING);
@@ -137,57 +142,15 @@ class FetchSubjectsHandler implements DBHandler {
   @Override
   public ExecutionResult<MessageResponse> executeRequest() {
     if (standardFrameworkId == null) {
-      LazyList<AJEntitySubject> results = AJEntitySubject
-          .where(AJEntitySubject.GUF_SUBJECTS_GET, this.classificationType)
-          .orderBy(HelperConstants.SEQUENCE_ID);
-      JsonArray jsonResults = new JsonArray();
-      results.forEach(result -> {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.put(AJEntitySubject.ID, result.get(AJEntitySubject.ID));
-        jsonObject.put(AJEntitySubject.TITLE, result.get(AJEntitySubject.TITLE));
-        jsonObject.put(AJEntitySubject.DESCRIPTION, result.get(AJEntitySubject.DESCRIPTION));
-        jsonObject.put(AJEntitySubject.CODE, result.get(AJEntitySubject.CODE));
-        jsonObject.put(AJEntitySubject.STANDARD_FRAMEWORK_ID,
-            result.get(AJEntitySubject.STANDARD_FRAMEWORK_ID));
-        if (result.getBoolean(AJEntitySubject.HAS_STANDARD_FRAMEWORK)) {
-          boolean isGlobalVisible = true;
-          List<String> frameworkIds = new ArrayList<>(0);
-          if (taxonomyFrameworkPreferences != null) {
-            JsonObject frameworkSubjectPrefs =
-                taxonomyFrameworkPreferences.getJsonObject(result.getString(AJEntitySubject.ID));
-            if (frameworkSubjectPrefs != null) {
-              isGlobalVisible = frameworkSubjectPrefs.getBoolean(HelperConstants.IS_GLOBAL_VISIBLE);
-              JsonArray ids = frameworkSubjectPrefs.getJsonArray(HelperConstants.FW_IDS);
-              if (ids != null) {
-                frameworkIds = ids.getList();
-              }
-
-            }
-          }
-          List<Map> frameworkResults = null;
-          if (isGlobalVisible) {
-            frameworkResults = Base.findAll(AJEntityFramework.STANDARD_FRAMEWORKS_GLOBALS,
-                result.get(AJEntitySubject.ID),
-                HelperUtils.toPostgresArrayString(frameworkIds.toArray()));
-          } else {
-            frameworkResults = Base.findAll(AJEntityFramework.STANDARD_FRAMEWORKS_BY_IDS,
-                result.get(AJEntitySubject.ID),
-                HelperUtils.toPostgresArrayString(frameworkIds.toArray()));
-          }
-
-          jsonObject.put(AJEntityFramework.FRAMEWORKS, frameworkResults);
-        }
-        jsonResults.add(jsonObject);
-      });
+      JsonArray subjects = getSubjects();
       return new ExecutionResult<>(
           MessageResponseFactory
-              .createOkayResponse(new JsonObject().put(HelperConstants.SUBJECTS, jsonResults)),
+              .createOkayResponse(new JsonObject().put(HelperConstants.SUBJECTS, subjects)),
           ExecutionResult.ExecutionStatus.SUCCESSFUL);
     } else {
-      LazyList<AJEntitySubject> results =
-          AJEntitySubject
-              .where(AJEntitySubject.SUBJECTS_GET, this.classificationType, standardFrameworkId)
-              .orderBy(HelperConstants.SEQUENCE_ID);
+      LazyList<AJEntitySubject> results = AJEntitySubject
+          .where(AJEntitySubject.SUBJECTS_GET, this.classificationType, standardFrameworkId)
+          .orderBy(HelperConstants.SEQUENCE_ID);
       JsonArray jsonResults = new JsonArray(JsonFormatterBuilder
           .buildSimpleJsonFormatter(false, Arrays.asList(HelperConstants.TX_RESPONSE_FIELDS))
           .toJson(results));
@@ -197,6 +160,107 @@ class FetchSubjectsHandler implements DBHandler {
           ExecutionResult.ExecutionStatus.SUCCESSFUL);
     }
 
+  }
+
+  private JsonArray getSubjects() {
+    boolean isGlobalVisible = true;
+    String defaultSubjectId = null;
+    List<String> subjectIds = new ArrayList<>(0);
+    if (taxonomySubjectPreferences != null) {
+      JsonObject subjectPrefs = taxonomySubjectPreferences.getJsonObject(this.classificationType);
+      if (subjectPrefs != null) {
+        isGlobalVisible = subjectPrefs.getBoolean(HelperConstants.IS_GLOBAL_VISIBLE);
+        JsonArray ids = subjectPrefs.getJsonArray(HelperConstants.GUT_SUBJECT_CODES);
+        defaultSubjectId = subjectPrefs.getString(HelperConstants.DEFAULT_GUT_SUBJECT_CODE);
+        if (ids != null) {
+          subjectIds = ids.getList();
+        }
+
+      }
+    }
+    LazyList<AJEntitySubject> results = null;
+    if (isGlobalVisible) {
+      results = AJEntitySubject
+          .where(AJEntitySubject.GUT_SUBJECTS_GET_GLOBALS, this.classificationType,
+              HelperUtils.toPostgresArrayString(subjectIds.toArray()))
+          .orderBy(HelperConstants.SEQUENCE_ID);
+    } else {
+      results = AJEntitySubject
+          .where(AJEntitySubject.GUT_SUBJECTS_GET_BY_IDS, this.classificationType,
+              HelperUtils.toPostgresArrayString(subjectIds.toArray()))
+          .orderBy(HelperConstants.SEQUENCE_ID);
+    }
+
+    return buildSubjectJsonObject(defaultSubjectId, results);
+  }
+
+  private JsonArray buildSubjectJsonObject(String defaultSubjectId,
+      LazyList<AJEntitySubject> results) {
+    JsonArray subjects = new JsonArray();
+    results.forEach(result -> {
+      JsonObject subject = new JsonObject();
+      String subjectId = result.getString(AJEntitySubject.ID);
+      subject.put(AJEntitySubject.ID, subjectId);
+      subject.put(AJEntitySubject.TITLE, result.get(AJEntitySubject.TITLE));
+      subject.put(AJEntitySubject.DESCRIPTION, result.get(AJEntitySubject.DESCRIPTION));
+      subject.put(AJEntitySubject.CODE, result.get(AJEntitySubject.CODE));
+      subject.put(AJEntitySubject.STANDARD_FRAMEWORK_ID,
+          result.get(AJEntitySubject.STANDARD_FRAMEWORK_ID));
+      if (defaultSubjectId != null && defaultSubjectId.equalsIgnoreCase(subjectId)) {
+        subject.put(HelperConstants.IS_DEFAULT, true);
+      }
+      boolean hasStandardFramework = result.getBoolean(AJEntitySubject.HAS_STANDARD_FRAMEWORK);
+
+      populateSubjectFrameworks(hasStandardFramework, subjectId, subject);
+      subjects.add(subject);
+    });
+    return subjects;
+  }
+
+  private void populateSubjectFrameworks(boolean hasStandardFramework, String subjectId,
+      JsonObject subject) {
+    if (hasStandardFramework) {
+      boolean isGlobalVisible = true;
+      String defaultFwId = null;
+      List<String> frameworkIds = new ArrayList<>(0);
+      if (taxonomyFrameworkPreferences != null) {
+        JsonObject frameworkSubjectPrefs = taxonomyFrameworkPreferences.getJsonObject(subjectId);
+        if (frameworkSubjectPrefs != null) {
+          isGlobalVisible = frameworkSubjectPrefs.getBoolean(HelperConstants.IS_GLOBAL_VISIBLE);
+          JsonArray ids = frameworkSubjectPrefs.getJsonArray(HelperConstants.FW_IDS);
+          defaultFwId = frameworkSubjectPrefs.getString(HelperConstants.DEFAULT_FW_ID);
+          if (ids != null) {
+            frameworkIds = ids.getList();
+          }
+
+        }
+      }
+      List<Map> frameworkResults = null;
+      if (isGlobalVisible) {
+        frameworkResults = Base.findAll(AJEntityFramework.STANDARD_FRAMEWORKS_GLOBALS, subjectId,
+            HelperUtils.toPostgresArrayString(frameworkIds.toArray()));
+      } else {
+        frameworkResults = Base.findAll(AJEntityFramework.STANDARD_FRAMEWORKS_BY_IDS, subjectId,
+            HelperUtils.toPostgresArrayString(frameworkIds.toArray()));
+      }
+
+      subject.put(AJEntityFramework.FRAMEWORKS,
+          setDefaultSubjectFwPrefs(defaultFwId, frameworkResults));
+
+    }
+  }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private List<Map> setDefaultSubjectFwPrefs(String defaultFwId, List<Map> frameworkResults) {
+    if (defaultFwId != null && frameworkResults != null) {
+      frameworkResults.forEach(framework -> {
+        String frameworkId = (String) framework.get(AJEntitySubject.STANDARD_FRAMEWORK_ID);
+        if (frameworkId.equalsIgnoreCase(defaultFwId)) {
+          framework.put(HelperConstants.IS_DEFAULT, true);
+        }
+      });
+    }
+    return frameworkResults;
   }
 
   @Override
