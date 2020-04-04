@@ -36,8 +36,18 @@ public final class HelperConstants {
   public final static String FRAMEWORKS = "frameworks";
   public final static String IS_GLOBAL_VISIBLE = "is_global_visible";
   public final static String FW_IDS = "fw_ids";
+  public final static String  GUT_SUBJECT_CODES = "gut_subject_codes";
+  public final static String  DEFAULT_GUT_SUBJECT_CODE = "default_gut_subject_code";
+  public final static String ID = "id";
+  public final static String IS_DEFAULT = "is_default";
+  
   public final static String IDS = "ids";
+  public final static String DEFAULT_FW_ID = "default_fw_id";
+  public final static String DEFAULT_COURSE_ID = "default_course_id";
   public final static String SUBJECT_CLASSIFICATIONS = "subject_classifications";
+  public final static String TRANSFORMED_DATA = "transformed_data";
+  public final static String DEFAULT_SUB_CLASSIFICATION_ID = "default_sub_classification_id";
+  public final static String TRANSFORMED_WITH_MCOMP_DATA = "transformed_with_mcomp_data";
   public final static String[] TX_COURSE_RESPONSE_FIELDS = {"id", "default_taxonomy_course_id",
       "code", "title", "description", "sequence_id"};
   public final static String[] TX_DOMAIN_RESPONSE_FIELDS = {"id", "default_taxonomy_domain_id",
@@ -48,6 +58,7 @@ public final class HelperConstants {
       "target_title", "target_description", "target_code_type", "target_sequence_id"};
   public final static String[] TX_FRAMEWORK_RESPONSE_FIELDS = {"id", "title"};
   public final static String[] TX_SUBJECT_CLASSIFICATION_RESPONSE_FIELDS = {"id", "title", "code"};
+  
 
 
   private HelperConstants() {

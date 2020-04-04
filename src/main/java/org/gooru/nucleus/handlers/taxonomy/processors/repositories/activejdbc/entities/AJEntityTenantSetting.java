@@ -11,4 +11,6 @@ public class AJEntityTenantSetting extends Model {
       "SELECT value FROM tenant_setting WHERE id = ?::uuid and key = 'tx_sub_classifier_prefs'";
   public static final String SELECT_TENANT_SETTING_TX_FW_PREFS =
       "SELECT value FROM tenant_setting WHERE id = ?::uuid and key = 'tx_fw_prefs'";
+  public static final String SELECT_TENANT_SETTING_TX_SUB_PREFS =
+      "SELECT value FROM tenant_setting WHERE id = ?::uuid and key = 'tx_sub_prefs'";
 }

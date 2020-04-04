@@ -21,11 +21,12 @@ import org.slf4j.LoggerFactory;
 
 class FetchTaxonomySubjectClassificationHandler implements DBHandler {
 
-  private static final Logger LOGGER = LoggerFactory
-      .getLogger(FetchTaxonomySubjectClassificationHandler.class);
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(FetchTaxonomySubjectClassificationHandler.class);
   public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages");
   private final ProcessorContext context;
   private boolean isGlobalVisible = true;
+  private String defaultSubjectClassificationId = null;
   private List<String> subjectClassificationIds = new ArrayList<>();
 
   public FetchTaxonomySubjectClassificationHandler(ProcessorContext context) {
@@ -46,9 +47,8 @@ class FetchTaxonomySubjectClassificationHandler implements DBHandler {
   @SuppressWarnings("unchecked")
   @Override
   public ExecutionResult<MessageResponse> validateRequest() {
-    LazyList<AJEntityTenantSetting> tenantSettings = AJEntityTenantSetting
-        .findBySQL(AJEntityTenantSetting.SELECT_TENANT_SETTING_TX_SUB_CLASSIFIER_PREFS,
-            context.tenant());
+    LazyList<AJEntityTenantSetting> tenantSettings = AJEntityTenantSetting.findBySQL(
+        AJEntityTenantSetting.SELECT_TENANT_SETTING_TX_SUB_CLASSIFIER_PREFS, context.tenant());
     AJEntityTenantSetting tenantSetting = tenantSettings.size() > 0 ? tenantSettings.get(0) : null;
     if (tenantSetting != null) {
       JsonObject tenantTaxonomySubjectClassificationPrefs =
@@ -57,6 +57,8 @@ class FetchTaxonomySubjectClassificationHandler implements DBHandler {
         this.isGlobalVisible =
             tenantTaxonomySubjectClassificationPrefs.getBoolean(HelperConstants.IS_GLOBAL_VISIBLE);
         JsonArray ids = tenantTaxonomySubjectClassificationPrefs.getJsonArray(HelperConstants.IDS);
+        this.defaultSubjectClassificationId = tenantTaxonomySubjectClassificationPrefs
+            .getString(HelperConstants.DEFAULT_SUB_CLASSIFICATION_ID);
         if (ids != null) {
           this.subjectClassificationIds = ids.getList();
         }
@@ -83,13 +85,25 @@ class FetchTaxonomySubjectClassificationHandler implements DBHandler {
         .buildSimpleJsonFormatter(false,
             Arrays.asList(HelperConstants.TX_SUBJECT_CLASSIFICATION_RESPONSE_FIELDS))
         .toJson(results));
+    populateDefaultSubjectClassification(jsonResults);
     return new ExecutionResult<>(
-        MessageResponseFactory
-            .createOkayResponse(
-                new JsonObject().put(HelperConstants.SUBJECT_CLASSIFICATIONS, jsonResults)),
+        MessageResponseFactory.createOkayResponse(
+            new JsonObject().put(HelperConstants.SUBJECT_CLASSIFICATIONS, jsonResults)),
         ExecutionResult.ExecutionStatus.SUCCESSFUL);
 
   }
+
+  private void populateDefaultSubjectClassification(JsonArray jsonResults) {
+    jsonResults.forEach(subjectClassification -> {
+      JsonObject subjectClassificationAsJsonObject = (JsonObject) subjectClassification;
+      String subjectClassificationId =
+          subjectClassificationAsJsonObject.getString(HelperConstants.ID);
+      if (this.defaultSubjectClassificationId != null
+          && defaultSubjectClassificationId.equalsIgnoreCase(subjectClassificationId))
+        subjectClassificationAsJsonObject.put(HelperConstants.IS_DEFAULT, true);
+    });
+  }
+
 
   @Override
   public boolean handlerReadOnly() {

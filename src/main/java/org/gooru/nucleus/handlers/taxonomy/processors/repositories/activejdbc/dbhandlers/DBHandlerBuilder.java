@@ -55,5 +55,9 @@ public final class DBHandlerBuilder {
   public static DBHandler buildListTaxonomyFrameworksSubjectsHandler(ProcessorContext context) {
     return new ListTaxonomyFrameworksSubjectsHandler(context);
   }
+  
+  public static DBHandler buildFetchGutToFrameworkTransformationHandler(ProcessorContext context) {
+    return new FetchGutToFrameworkTransformationHandler(context);
+  }
 
 }
